@@ -1,0 +1,798 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Windows11 个人微信电脑端发送 SKILL</title>
+  <meta name="description" content="面向 Windows11 个人微信电脑端的本地发送 SKILL，支持联系人、群聊、批量名单、附件确认和结果回报。">
+  <style>
+    :root {
+      --paper: #f1f2f0;
+      --paper-strong: #e6e8e6;
+      --ink: #061a3a;
+      --muted: #536173;
+      --line: rgba(6, 26, 58, 0.18);
+      --line-strong: rgba(6, 26, 58, 0.42);
+      --red: #e12631;
+      --green: #516f3f;
+      --white: #ffffff;
+      --shadow: 24px 28px 0 rgba(6, 26, 58, 0.12);
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px),
+        linear-gradient(var(--line-strong) 2px, transparent 2px),
+        linear-gradient(90deg, var(--line-strong) 2px, transparent 2px),
+        var(--paper);
+      background-size: 40px 40px, 40px 40px, 240px 240px, 240px 240px;
+      font-family: "Microsoft YaHei", "Noto Sans SC", sans-serif;
+      line-height: 1.55;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img,
+    video {
+      max-width: 100%;
+      display: block;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 4px solid var(--ink);
+      background: rgba(241, 242, 240, 0.92);
+      backdrop-filter: blur(14px);
+    }
+
+    .topbar-inner {
+      width: min(var(--max), calc(100% - 48px));
+      height: 70px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      color: var(--white);
+      background: var(--red);
+      font-size: 1.25rem;
+      font-weight: 900;
+    }
+
+    .nav {
+      display: flex;
+      gap: 22px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 800;
+    }
+
+    .button {
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 22px;
+      border: 3px solid var(--ink);
+      color: var(--white);
+      background: var(--ink);
+      font-size: 1rem;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+
+    .button:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 7px 7px 0 var(--red);
+    }
+
+    .button-red {
+      background: var(--red);
+      border-color: var(--red);
+    }
+
+    .button-light {
+      color: var(--ink);
+      background: transparent;
+    }
+
+    .hero {
+      min-height: 86vh;
+      display: grid;
+      align-items: center;
+      padding: 72px 0 48px;
+      border-bottom: 4px solid var(--ink);
+    }
+
+    .hero-inner,
+    .section-inner {
+      width: min(var(--max), calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(360px, 0.72fr);
+      gap: 48px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 6px 12px;
+      color: var(--white);
+      background: var(--red);
+      font-size: 0.86rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 760px;
+      margin: 28px 0 22px;
+      font-family: Impact, "Microsoft YaHei", sans-serif;
+      font-size: 5.6rem;
+      line-height: 0.95;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .lead {
+      max-width: 660px;
+      margin: 0;
+      color: var(--ink);
+      font-size: 1.22rem;
+      font-weight: 700;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .hero-proof {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin-top: 46px;
+      border-top: 4px solid var(--ink);
+      border-bottom: 4px solid var(--ink);
+    }
+
+    .proof-cell {
+      min-height: 112px;
+      padding: 18px 18px 16px;
+      border-right: 2px solid var(--line-strong);
+      background: rgba(255, 255, 255, 0.42);
+    }
+
+    .proof-cell:last-child {
+      border-right: 0;
+    }
+
+    .proof-index {
+      color: var(--red);
+      font-size: 0.9rem;
+      font-weight: 900;
+    }
+
+    .proof-cell strong {
+      display: block;
+      margin-top: 8px;
+      font-size: 1.02rem;
+      line-height: 1.22;
+    }
+
+    .cover-frame {
+      position: relative;
+      border: 4px solid var(--ink);
+      background: var(--paper-strong);
+      box-shadow: var(--shadow);
+    }
+
+    .cover-frame::before {
+      content: "COVER / 1920 X 1080";
+      position: absolute;
+      top: -34px;
+      right: 0;
+      font-size: 0.9rem;
+      font-weight: 900;
+    }
+
+    .cover-frame img {
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+    }
+
+    .ticker {
+      overflow: hidden;
+      border-bottom: 4px solid var(--ink);
+      background: var(--ink);
+      color: var(--white);
+    }
+
+    .ticker-track {
+      width: max-content;
+      display: flex;
+      gap: 36px;
+      padding: 12px 0;
+      animation: slide 26s linear infinite;
+      font-size: 0.95rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .ticker-track span {
+      white-space: nowrap;
+    }
+
+    @keyframes slide {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    section {
+      padding: 84px 0;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 210px minmax(0, 1fr);
+      gap: 34px;
+      align-items: start;
+      margin-bottom: 38px;
+      border-top: 4px solid var(--ink);
+      padding-top: 22px;
+    }
+
+    .section-kicker {
+      color: var(--red);
+      font-size: 0.95rem;
+      font-weight: 900;
+    }
+
+    h2 {
+      margin: 0;
+      font-family: Impact, "Microsoft YaHei", sans-serif;
+      font-size: 3.2rem;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+
+    .module {
+      min-height: 260px;
+      border-top: 4px solid var(--ink);
+      padding: 22px 22px 24px;
+      background: rgba(255, 255, 255, 0.46);
+    }
+
+    .module-wide {
+      grid-column: span 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .module-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 54px;
+      height: 54px;
+      color: var(--white);
+      background: var(--ink);
+      font-weight: 900;
+    }
+
+    .module h3 {
+      margin: 18px 0 12px;
+      font-size: 1.55rem;
+      line-height: 1.16;
+    }
+
+    .module p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .red-panel {
+      padding: 28px;
+      color: var(--white);
+      background: var(--red);
+    }
+
+    .red-panel strong {
+      display: block;
+      font-family: Impact, "Microsoft YaHei", sans-serif;
+      font-size: 3.4rem;
+      line-height: 0.95;
+      letter-spacing: 0;
+    }
+
+    .video-band {
+      color: var(--white);
+      background: var(--ink);
+    }
+
+    .video-band .section-head {
+      border-color: var(--white);
+    }
+
+    .video-band .section-kicker {
+      color: var(--red);
+    }
+
+    .video-shell {
+      border: 4px solid var(--white);
+      background: #000;
+      box-shadow: 22px 22px 0 var(--red);
+    }
+
+    video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 4px solid var(--ink);
+      border-bottom: 4px solid var(--ink);
+    }
+
+    .flow-step {
+      min-height: 220px;
+      padding: 22px;
+      border-right: 2px solid var(--line-strong);
+      background: rgba(255, 255, 255, 0.36);
+    }
+
+    .flow-step:last-child {
+      border-right: 0;
+    }
+
+    .flow-step b {
+      display: block;
+      color: var(--red);
+      font-size: 0.92rem;
+    }
+
+    .flow-step strong {
+      display: block;
+      margin: 18px 0 12px;
+      font-size: 1.32rem;
+      line-height: 1.18;
+    }
+
+    .flow-step p {
+      margin: 0;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .purchase {
+      padding-bottom: 0;
+    }
+
+    .purchase-box {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 0;
+      border-top: 4px solid var(--ink);
+      background: var(--white);
+      box-shadow: 0 -4px 0 var(--ink);
+    }
+
+    .purchase-main {
+      padding: 38px;
+      background:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px),
+        var(--paper);
+      background-size: 40px 40px;
+    }
+
+    .purchase-side {
+      padding: 38px;
+      color: var(--white);
+      background: var(--ink);
+    }
+
+    .purchase h2 {
+      font-size: 3.8rem;
+    }
+
+    .intent {
+      margin: 24px 0;
+      padding: 18px 20px;
+      border: 3px solid var(--ink);
+      background: var(--white);
+      font-size: 1.05rem;
+      font-weight: 900;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .purchase-side ul {
+      margin: 24px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 14px;
+    }
+
+    .purchase-side li {
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.24);
+      font-weight: 800;
+    }
+
+    .toast {
+      min-height: 24px;
+      margin-top: 14px;
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    footer {
+      padding: 26px 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    @media (max-width: 980px) {
+      .topbar-inner {
+        grid-template-columns: 1fr auto;
+      }
+
+      .nav {
+        display: none;
+      }
+
+      .hero-grid,
+      .intro-grid,
+      .module-wide,
+      .purchase-box {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 4rem;
+      }
+
+      .hero-proof,
+      .flow {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .module-wide {
+        grid-column: span 1;
+      }
+
+      .cover-frame {
+        margin-top: 34px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .topbar-inner,
+      .hero-inner,
+      .section-inner {
+        width: min(var(--max), calc(100% - 28px));
+      }
+
+      .topbar-inner {
+        height: auto;
+        min-height: 64px;
+        gap: 12px;
+        padding: 10px 0;
+      }
+
+      .brand span {
+        display: none;
+      }
+
+      .button {
+        min-height: 44px;
+        padding: 0 14px;
+        font-size: 0.92rem;
+      }
+
+      .hero {
+        padding-top: 44px;
+      }
+
+      h1 {
+        font-size: 2.8rem;
+      }
+
+      h2,
+      .purchase h2 {
+        font-size: 2.35rem;
+      }
+
+      .lead {
+        font-size: 1.05rem;
+      }
+
+      .hero-proof,
+      .flow,
+      .section-head {
+        grid-template-columns: 1fr;
+      }
+
+      .proof-cell,
+      .flow-step {
+        border-right: 0;
+        border-bottom: 2px solid var(--line-strong);
+      }
+
+      .proof-cell:last-child,
+      .flow-step:last-child {
+        border-bottom: 0;
+      }
+
+      .cover-frame::before {
+        top: -28px;
+        font-size: 0.78rem;
+      }
+
+      section {
+        padding: 58px 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#top" aria-label="返回页面顶部">
+        <span class="brand-mark">S</span>
+        <span>Wechat Sender Skill</span>
+      </a>
+      <nav class="nav" aria-label="页面导航">
+        <a href="#intro">简介</a>
+        <a href="#video">视频</a>
+        <a href="#flow">流程</a>
+      </nav>
+      <a class="button button-red" href="#purchase">立即购买</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-inner">
+        <div class="hero-grid">
+          <div>
+            <span class="eyebrow">Desktop Automation Skill</span>
+            <h1 id="hero-title">Windows11<br>个人微信<br>电脑端发送</h1>
+            <p class="lead">面向个人微信电脑端的本地发送 Skill。联系人、群聊、批量名单、附件文件先预览再执行，让重复通知和资料分发少出错、少占时间。</p>
+            <div class="hero-actions">
+              <a class="button button-red" href="#purchase">点击购买</a>
+              <a class="button button-light" href="#video">观看介绍视频</a>
+            </div>
+            <div class="hero-proof" aria-label="核心卖点">
+              <div class="proof-cell">
+                <span class="proof-index">01</span>
+                <strong>联系人与群聊本地搜索执行</strong>
+              </div>
+              <div class="proof-cell">
+                <span class="proof-index">02</span>
+                <strong>名单分批减少频繁操作风险</strong>
+              </div>
+              <div class="proof-cell">
+                <span class="proof-index">03</span>
+                <strong>附件先列后发避免错漏</strong>
+              </div>
+              <div class="proof-cell">
+                <span class="proof-index">04</span>
+                <strong>结果回报失败可单独补发</strong>
+              </div>
+            </div>
+          </div>
+          <figure class="cover-frame">
+            <img src="assets/swiss-grid-cover.png" alt="Windows11 个人微信电脑端发送 Skill 封面图">
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <span>先确认，再发送</span><span>Batch Send</span><span>Attachment Preview</span><span>Local WeChat Desktop</span><span>Result Report</span>
+        <span>先确认，再发送</span><span>Batch Send</span><span>Attachment Preview</span><span>Local WeChat Desktop</span><span>Result Report</span>
+      </div>
+    </div>
+
+    <section id="intro" aria-labelledby="intro-title">
+      <div class="section-inner">
+        <div class="section-head">
+          <div class="section-kicker">Skill 简介</div>
+          <h2 id="intro-title">把重复的微信发送动作，交给本地助手按步骤完成。</h2>
+        </div>
+        <div class="intro-grid">
+          <article class="module">
+            <span class="module-number">01</span>
+            <h3>单人、群聊、多人名单都能处理</h3>
+            <p>你只需要说清楚收件人和内容。面对多个联系人或多个群，Skill 会按顺序逐个执行，并在人数较多时自动分批。</p>
+          </article>
+          <article class="module">
+            <span class="module-number">02</span>
+            <h3>带附件发送前先看清文件</h3>
+            <p>文件夹里的 PDF、Excel、图片、压缩包可以先列出确认，再上传发送，适合通知、资料包、活动文件和对账材料。</p>
+          </article>
+          <article class="module">
+            <span class="module-number">03</span>
+            <h3>默认重视预览和确认</h3>
+            <p>群名相似、文件敏感、名单较长时，不直接冲动发送。先预览名单、内容和附件，再决定是否执行。</p>
+          </article>
+          <article class="module">
+            <span class="module-number">04</span>
+            <h3>发完给出可追踪结果</h3>
+            <p>完成后回报成功、失败和总数。失败对象可以单独补发，避免整批重来。</p>
+          </article>
+          <article class="module module-wide">
+            <div class="red-panel">
+              <strong>先确认<br>再发送</strong>
+            </div>
+            <p>这个 Skill 不替你做业务判断，它把你已经确认的收件人、消息、附件变成稳定的本地电脑操作流程。它适合需要反复发送但又怕误发的人：运营通知、客户资料、社群提醒、活动文件、内部同步。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="video" class="video-band" aria-labelledby="video-title">
+      <div class="section-inner">
+        <div class="section-head">
+          <div class="section-kicker">介绍视频</div>
+          <h2 id="video-title">82 秒看清它能替你完成什么。</h2>
+        </div>
+        <div class="video-shell">
+          <video controls preload="metadata" poster="assets/swiss-grid-cover.png">
+            <source src="assets/sender-wechat-product-intro-03.mp4" type="video/mp4">
+            当前浏览器不支持视频播放。
+          </video>
+        </div>
+      </div>
+    </section>
+
+    <section id="flow" aria-labelledby="flow-title">
+      <div class="section-inner">
+        <div class="section-head">
+          <div class="section-kicker">发送流程</div>
+          <h2 id="flow-title">购买后，用一条自然语言指令启动。</h2>
+        </div>
+        <div class="flow">
+          <div class="flow-step">
+            <b>STEP 01</b>
+            <strong>打开并登录电脑微信</strong>
+            <p>保持 Windows11 电脑未锁屏，微信处于可操作状态。</p>
+          </div>
+          <div class="flow-step">
+            <b>STEP 02</b>
+            <strong>说清收件人、内容和附件</strong>
+            <p>联系人、群名、名单文件、附件文件夹都可以纳入同一条任务。</p>
+          </div>
+          <div class="flow-step">
+            <b>STEP 03</b>
+            <strong>先预览名单与文件</strong>
+            <p>尤其是群名相似、批量发送、文件较多时，先检查再发送。</p>
+          </div>
+          <div class="flow-step">
+            <b>STEP 04</b>
+            <strong>执行并回报结果</strong>
+            <p>成功、失败、总数清楚回报，失败对象可单独补发。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="purchase" class="purchase" aria-labelledby="purchase-title">
+      <div class="section-inner">
+        <div class="purchase-box">
+          <div class="purchase-main">
+            <span class="eyebrow">Buy / Open Skill</span>
+            <h2 id="purchase-title">准备好以后，直接点击购买。</h2>
+            <div class="intent" id="intentText">我要购买 Windows11 个人微信电脑端发送 SKILL</div>
+            <button class="button button-red" type="button" id="copyButton">复制购买意向</button>
+            <div class="toast" id="toast" role="status" aria-live="polite"></div>
+            <p class="note">当前页面未绑定外部支付链接。接入购买地址后，顶部和首屏按钮可直接跳转到支付或咨询页面。</p>
+          </div>
+          <aside class="purchase-side" aria-label="购买前确认">
+            <span class="eyebrow">Checklist</span>
+            <ul>
+              <li>适用环境：Windows11 + 个人微信电脑端</li>
+              <li>核心用途：消息发送、群发、附件预览、结果回报</li>
+              <li>关键原则：先确认名单和文件，再执行发送</li>
+              <li>适合人群：经常发通知、资料、社群消息的人</li>
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="section-inner">Windows11 Personal WeChat Desktop Sending SKILL / Local automation page</div>
+  </footer>
+
+  <script>
+    const copyButton = document.querySelector("#copyButton");
+    const intentText = document.querySelector("#intentText");
+    const toast = document.querySelector("#toast");
+
+    copyButton.addEventListener("click", async () => {
+      const text = intentText.textContent.trim();
+      try {
+        await navigator.clipboard.writeText(text);
+        toast.textContent = "已复制购买意向";
+      } catch (error) {
+        toast.textContent = text;
+      }
+    });
+  </script>
+</body>
+</html>
