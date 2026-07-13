@@ -417,6 +417,209 @@
       font-weight: 700;
     }
 
+    .download-band {
+      position: relative;
+      overflow: hidden;
+      color: var(--white);
+      background: var(--ink);
+    }
+
+    .download-band::before {
+      content: "RC1 / TEST RELEASE / WINDOWS 11 /";
+      position: absolute;
+      top: 28px;
+      right: -42px;
+      color: rgba(255, 255, 255, 0.06);
+      font-family: Impact, "Microsoft YaHei", sans-serif;
+      font-size: clamp(4rem, 9vw, 8.5rem);
+      line-height: 0.82;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    .download-band .section-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .download-band .section-head {
+      border-color: var(--white);
+    }
+
+    .download-band .section-kicker {
+      color: #ff7a82;
+    }
+
+    .release-status {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin-bottom: 28px;
+      border: 3px solid var(--white);
+    }
+
+    .release-status div {
+      padding: 16px 18px;
+      border-right: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .release-status div:last-child {
+      border-right: 0;
+    }
+
+    .release-status span {
+      display: block;
+      margin-bottom: 4px;
+      color: rgba(255, 255, 255, 0.62);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .release-status strong {
+      font-size: 1.06rem;
+    }
+
+    .download-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+      gap: 22px;
+    }
+
+    .download-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-height: 246px;
+      padding: 28px;
+      border: 3px solid var(--white);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .download-card-primary {
+      min-height: 100%;
+      color: var(--ink);
+      border-color: var(--red);
+      background: var(--paper);
+      box-shadow: 12px 12px 0 var(--red);
+    }
+
+    .download-stack {
+      display: grid;
+      gap: 22px;
+    }
+
+    .download-stack .download-card {
+      min-height: 0;
+    }
+
+    .file-tag {
+      align-self: flex-start;
+      padding: 5px 9px;
+      color: var(--white);
+      background: var(--red);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .download-card h3 {
+      margin: 22px 0 10px;
+      font-size: 1.65rem;
+      line-height: 1.1;
+    }
+
+    .download-card p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.68);
+      font-weight: 700;
+    }
+
+    .download-card-primary p {
+      color: var(--muted);
+    }
+
+    .file-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      margin: 18px 0 20px;
+      font-size: 0.88rem;
+      font-weight: 900;
+    }
+
+    .download-card .button {
+      align-self: flex-start;
+      margin-top: auto;
+    }
+
+    .hash {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid currentColor;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.75rem;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+      opacity: 0.72;
+    }
+
+    .release-notes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      margin-top: 34px;
+    }
+
+    .release-note {
+      padding: 24px;
+      border-top: 4px solid var(--red);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .release-note strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.18rem;
+    }
+
+    .release-note p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.72);
+      font-weight: 700;
+    }
+
+    .install-track {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      margin-top: 34px;
+      border-top: 3px solid var(--white);
+      border-bottom: 3px solid var(--white);
+    }
+
+    .install-step {
+      min-height: 154px;
+      padding: 18px 14px;
+      border-right: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .install-step:last-child {
+      border-right: 0;
+    }
+
+    .install-step b {
+      color: #ff7a82;
+      font-size: 0.8rem;
+    }
+
+    .install-step strong {
+      display: block;
+      margin-top: 12px;
+      font-size: 1rem;
+      line-height: 1.25;
+    }
+
     .purchase {
       padding-bottom: 0;
     }
@@ -504,6 +707,8 @@
       .hero-grid,
       .intro-grid,
       .module-wide,
+      .download-grid,
+      .release-notes,
       .purchase-box {
         grid-template-columns: 1fr;
       }
@@ -513,7 +718,8 @@
       }
 
       .hero-proof,
-      .flow {
+      .flow,
+      .install-track {
         grid-template-columns: repeat(2, 1fr);
       }
 
@@ -569,8 +775,25 @@
 
       .hero-proof,
       .flow,
+      .release-status,
+      .install-track,
       .section-head {
         grid-template-columns: 1fr;
+      }
+
+      .release-status div,
+      .install-step {
+        border-right: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .release-status div:last-child,
+      .install-step:last-child {
+        border-bottom: 0;
+      }
+
+      .download-card {
+        padding: 22px;
       }
 
       .proof-cell,
@@ -617,8 +840,9 @@
         <a href="#intro">简介</a>
         <a href="#video">视频</a>
         <a href="#flow">流程</a>
+        <a href="#download">下载</a>
       </nav>
-      <a class="button button-red" href="#purchase">立即购买</a>
+      <a class="button button-red" href="#download">测试下载</a>
     </div>
   </header>
 
@@ -631,7 +855,7 @@
             <h1 id="hero-title">Windows11<br>个人微信<br>电脑端发送</h1>
             <p class="lead">面向个人微信电脑端的本地发送 Skill。联系人、群聊、批量名单、附件文件先预览再执行，让重复通知和资料分发少出错、少占时间。</p>
             <div class="hero-actions">
-              <a class="button button-red" href="#purchase">点击购买</a>
+              <a class="button button-red" href="#download">下载 RC1 测试版</a>
               <a class="button button-light" href="#video">观看介绍视频</a>
             </div>
             <div class="hero-proof" aria-label="核心卖点">
@@ -746,6 +970,72 @@
             <strong>执行并回报结果</strong>
             <p>成功、失败、总数清楚回报，失败对象可单独补发。</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="download" class="download-band" aria-labelledby="download-title">
+      <div class="section-inner">
+        <div class="section-head">
+          <div class="section-kicker">Test Release</div>
+          <h2 id="download-title">客户端下载、授权激活、Agent 调用，按顺序完成。</h2>
+        </div>
+
+        <div class="release-status" aria-label="测试版本信息">
+          <div><span>Version</span><strong>0.1.0-rc1</strong></div>
+          <div><span>Platform</span><strong>Windows 11 / 64-bit</strong></div>
+          <div><span>License</span><strong>trial_7d 单独领取</strong></div>
+        </div>
+
+        <div class="download-grid">
+          <article class="download-card download-card-primary">
+            <span class="file-tag">主下载 · 推荐</span>
+            <h3>微信本地通知助手安装器</h3>
+            <p>适合大多数测试用户。安装后会将客户端放到稳定路径，便于 Workbuddy / Codex Skill 调用。</p>
+            <div class="file-meta"><span>SETUP.EXE</span><span>9.9 MB</span><span>RC1</span></div>
+            <a class="button button-red" href="assets/downloads/微信本地通知助手-v0.1.0-rc1-setup.exe" download>下载 Windows 安装器 ↓</a>
+            <div class="hash"><strong>SHA256</strong><br>9470657D233DD4B6FB136568904FF0E26FDAA939CA07D978210F203670346BD4</div>
+          </article>
+
+          <div class="download-stack">
+            <article class="download-card">
+              <span class="file-tag">备用下载</span>
+              <h3>免安装测试包</h3>
+              <p>完整解压后运行，不要单独移动 exe，必须保留 <code>_internal</code> 目录。</p>
+              <div class="file-meta"><span>ZIP</span><span>11.1 MB</span></div>
+              <a class="button" href="assets/downloads/微信本地通知助手-v0.1.0-rc1.zip" download>下载免安装包 ↓</a>
+              <div class="hash"><strong>SHA256</strong><br>AE740225432F48492BA09AA56A7BA238C92D14EDD23B0EFB0B7A845B35C3A535</div>
+            </article>
+
+            <article class="download-card">
+              <span class="file-tag">Agent 用户</span>
+              <h3>Workbuddy / Codex Skill</h3>
+              <p>用于自然语言调用已安装的客户端。这个包不包含 exe，不能单独使用。</p>
+              <div class="file-meta"><span>SKILL ZIP</span><span>5 KB</span></div>
+              <a class="button" href="assets/downloads/wechat-sender-workbuddy-skill-v0.1.0-rc1.zip" download>下载 Agent Skill ↓</a>
+              <div class="hash"><strong>SHA256</strong><br>EDBE1FE7F079FA9429A607C3500C4B7EA02FF22EB9289A3B0EAAA1C998F727A7</div>
+            </article>
+          </div>
+        </div>
+
+        <div class="release-notes">
+          <div class="release-note">
+            <strong>⚠ Windows SmartScreen 提示</strong>
+            <p>当前 RC1 尚未数字签名，Windows 可能显示“未知发布者”。请先核对本页 SHA256，仅在明确了解来源时继续测试。</p>
+          </div>
+          <div class="release-note">
+            <strong>激活界面 ≠ 完整发送 GUI</strong>
+            <p>双击客户端后主要用于输入授权码。如需“说一句话就执行”，还要导入 Workbuddy / Codex Skill；授权码不会打包在网页或客户端内。</p>
+          </div>
+        </div>
+
+        <div class="install-track" aria-label="测试安装流程">
+          <div class="install-step"><b>01 / DOWNLOAD</b><strong>下载安装器</strong></div>
+          <div class="install-step"><b>02 / INSTALL</b><strong>安装并启动</strong></div>
+          <div class="install-step"><b>03 / ACTIVATE</b><strong>输入单独发放的授权码</strong></div>
+          <div class="install-step"><b>04 / IMPORT</b><strong>Agent 用户导入 Skill</strong></div>
+          <div class="install-step"><b>05 / PREVIEW</b><strong>先预览名单和文件</strong></div>
+          <div class="install-step"><b>06 / SEND</b><strong>确认后受控测试发送</strong></div>
         </div>
       </div>
     </section>
