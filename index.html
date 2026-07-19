@@ -734,6 +734,265 @@
       font-weight: 900;
     }
 
+    body.trial-modal-open {
+      overflow: hidden;
+    }
+
+    .trial-modal[hidden] {
+      display: none;
+    }
+
+    .trial-modal {
+      position: fixed;
+      z-index: 100;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: rgba(6, 26, 58, 0.76);
+      backdrop-filter: blur(10px);
+    }
+
+    .trial-dialog {
+      width: min(940px, 100%);
+      max-height: min(90vh, 820px);
+      overflow: auto;
+      padding: 0;
+      border: 4px solid var(--ink);
+      background:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px),
+        var(--paper);
+      background-size: 40px 40px, 40px 40px, auto;
+      box-shadow: 18px 18px 0 var(--red);
+    }
+
+    .trial-dialog-head {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      justify-content: space-between;
+      border-bottom: 4px solid var(--ink);
+      padding: 24px 26px 22px;
+      background: rgba(255, 255, 255, 0.92);
+    }
+
+    .trial-dialog-head .eyebrow {
+      margin-bottom: 10px;
+    }
+
+    .trial-dialog-head h2 {
+      margin: 0;
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+      line-height: 0.94;
+    }
+
+    .trial-dialog-head p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .trial-close {
+      width: 48px;
+      height: 48px;
+      flex: 0 0 auto;
+      border: 3px solid var(--ink);
+      color: var(--ink);
+      background: var(--paper);
+      font-size: 1.7rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .trial-close:hover {
+      color: var(--white);
+      background: var(--red);
+    }
+
+    .trial-dialog-grid {
+      display: grid;
+      grid-template-columns: minmax(260px, 0.78fr) minmax(0, 1.22fr);
+      gap: 0;
+    }
+
+    .trial-qr-panel {
+      border-right: 4px solid var(--ink);
+      padding: 24px;
+      background: var(--white);
+    }
+
+    .trial-qr-frame {
+      border: 3px solid var(--ink);
+      padding: 10px;
+      background: var(--white);
+      box-shadow: 9px 9px 0 var(--paper-strong);
+    }
+
+    .trial-qr-frame img {
+      width: 100%;
+      max-height: 430px;
+      object-fit: contain;
+    }
+
+    .trial-qr-panel p {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .trial-contact-panel {
+      display: grid;
+      gap: 16px;
+      padding: 24px;
+    }
+
+    .trial-contact-card,
+    .trial-download-card {
+      border: 3px solid var(--ink);
+      padding: 18px;
+      background: var(--white);
+    }
+
+    .trial-mini-label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--red);
+      font-size: 0.74rem;
+      font-weight: 950;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .trial-wechat-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .trial-wechat-id {
+      overflow-wrap: anywhere;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 2rem;
+      font-weight: 900;
+    }
+
+    .trial-small-button {
+      min-height: 42px;
+      border: 3px solid var(--ink);
+      padding: 0 14px;
+      color: var(--white);
+      background: var(--ink);
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .trial-small-button:hover {
+      color: var(--white);
+      background: var(--red);
+    }
+
+    .trial-remark {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .trial-copy-application {
+      width: 100%;
+    }
+
+    .trial-download-card strong,
+    .trial-download-card span {
+      display: block;
+    }
+
+    .trial-download-card span {
+      margin: 6px 0 14px;
+      overflow-wrap: anywhere;
+      color: var(--muted);
+      font-family: "Courier New", monospace;
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    .trial-download-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .trial-download-actions .button,
+    .trial-download-actions .trial-small-button {
+      min-height: 44px;
+      width: 100%;
+      padding: 0 12px;
+      font-size: 0.88rem;
+    }
+
+    .trial-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 3px solid var(--ink);
+      background: var(--ink);
+      gap: 1px;
+    }
+
+    .trial-step {
+      min-height: 92px;
+      padding: 14px;
+      background: var(--paper);
+    }
+
+    .trial-step b,
+    .trial-step span {
+      display: block;
+    }
+
+    .trial-step b {
+      margin-bottom: 8px;
+      color: var(--red);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.5rem;
+    }
+
+    .trial-step span {
+      font-size: 0.86rem;
+      font-weight: 900;
+    }
+
+    .trial-rules {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .trial-rules span {
+      border: 2px solid var(--ink);
+      padding: 5px 9px;
+      background: var(--paper-strong);
+      font-size: 0.78rem;
+      font-weight: 900;
+    }
+
+    .trial-response-time {
+      margin: 0;
+      border-left: 6px solid var(--red);
+      padding: 10px 12px;
+      background: var(--white);
+      font-weight: 900;
+    }
+
+    .trial-copy-status {
+      min-height: 24px;
+      margin: 0;
+      color: var(--green);
+      font-weight: 900;
+    }
+
     .pricing-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -933,6 +1192,59 @@
       section {
         padding: 58px 0;
       }
+
+      .trial-modal {
+        place-items: start center;
+        padding: 12px;
+      }
+
+      .trial-dialog {
+        max-height: calc(100vh - 24px);
+        box-shadow: 8px 8px 0 var(--red);
+      }
+
+      .trial-dialog-head {
+        padding: 18px;
+      }
+
+      .trial-dialog-head h2 {
+        font-size: 2.5rem;
+      }
+
+      .trial-dialog-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .trial-qr-panel {
+        order: 2;
+        border-right: 0;
+        border-bottom: 0;
+        border-top: 4px solid var(--ink);
+        padding: 18px;
+      }
+
+      .trial-contact-panel {
+        order: 1;
+      }
+
+      .trial-qr-frame {
+        width: min(100%, 310px);
+        margin: 0 auto;
+      }
+
+      .trial-contact-panel {
+        padding: 18px;
+      }
+
+      .trial-wechat-row,
+      .trial-download-actions,
+      .trial-steps {
+        grid-template-columns: 1fr;
+      }
+
+      .trial-wechat-row .trial-small-button {
+        width: 100%;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -975,7 +1287,7 @@
             <p class="lead">面向 Windows 11 个人微信桌面版的通用发送 Skill，可接入 WorkBuddy、阿里悟空、Trae、Claude Code、Codex 等桌面 Agent，让通知、报告、客户跟进和文件分发等自动化流程，最终通过微信触达联系人与群聊。</p>
             <div class="hero-actions">
               <a class="button button-red" href="#download">下载客户端</a>
-              <a class="button button-light" href="#purchase">申请 7 天体验码</a>
+              <button class="button button-light" type="button" data-open-trial-modal>申请 7 天体验码</button>
               <a class="button button-light" href="./buy.html">查看套餐并购买</a>
             </div>
             <div class="hero-proof" aria-label="核心卖点">
@@ -1172,8 +1484,8 @@
                   <li>限 1 台设备</li>
                   <li>首次激活后 7 天</li>
                 </ul>
-                <div class="intent" id="trialIntent">申请微信本地通知助手 7 天体验码；我的联系方式：____</div>
-                <button class="button" type="button" id="copyTrialButton">复制体验申请</button>
+                <div class="intent">个人微信人工审核，工作时间内申请通常 1 小时内回复。</div>
+                <button class="button" type="button" data-open-trial-modal>申请 7 天体验</button>
               </article>
               <article class="price-card">
                 <span class="price-label">Personal 90D</span>
@@ -1209,7 +1521,6 @@
                 <a class="button button-red" href="./buy.html?plan=team_multi_device">购买团队年版</a>
               </article>
             </div>
-            <div class="toast" id="toast" role="status" aria-live="polite"></div>
             <p class="note">同一用户原则上仅可领取一次 7 天体验码。安装包可以重复下载；如需重装或遇到授权状态异常，请联系售后处理。</p>
           </div>
           <aside class="purchase-side" aria-label="购买前确认">
@@ -1231,23 +1542,166 @@
     <div class="section-inner">微信本地通知助手 / Windows 11 personal WeChat skill for desktop Agents</div>
   </footer>
 
-  <script>
-    const copyTrialButton = document.querySelector("#copyTrialButton");
-    const trialIntent = document.querySelector("#trialIntent");
-    const toast = document.querySelector("#toast");
+  <div class="trial-modal" id="trialModal" hidden>
+    <section class="trial-dialog" role="dialog" aria-modal="true" aria-labelledby="trialModalTitle" aria-describedby="trialModalDescription">
+      <header class="trial-dialog-head">
+        <div>
+          <span class="eyebrow">7 Day Trial</span>
+          <h2 id="trialModalTitle">申请 7 天体验</h2>
+          <p id="trialModalDescription">添加产品客服微信，审核后领取独立体验码。</p>
+        </div>
+        <button class="trial-close" type="button" id="closeTrialModalButton" aria-label="关闭体验申请弹窗">×</button>
+      </header>
 
-    copyTrialButton.addEventListener("click", async () => {
-      const text = trialIntent.textContent.trim();
-      toast.textContent = "正在复制体验申请…";
-      try {
-        await Promise.race([
-          navigator.clipboard.writeText(text),
-          new Promise((_, reject) => setTimeout(() => reject(new Error("clipboard timeout")), 1200))
-        ]);
-        toast.textContent = "体验申请已复制，请补充联系方式后发送给销售方。";
-      } catch (error) {
-        toast.textContent = `请复制以下内容：${text}`;
+      <div class="trial-dialog-grid">
+        <div class="trial-qr-panel">
+          <div class="trial-qr-frame">
+            <img src="assets/wechat-ablink185-qr.jpg" alt="产品客服个人微信 ablink185 二维码">
+          </div>
+          <p>电脑端用户使用微信扫码添加；手机端请复制微信号后在微信中搜索。</p>
+        </div>
+
+        <div class="trial-contact-panel">
+          <div class="trial-contact-card">
+            <span class="trial-mini-label">Personal WeChat</span>
+            <div class="trial-wechat-row">
+              <strong class="trial-wechat-id">ablink185</strong>
+              <button class="trial-small-button" type="button" data-copy-trial="wechat">复制微信号</button>
+            </div>
+            <p class="trial-remark">好友申请备注：<strong>体验申请 + 使用的 Agent</strong></p>
+          </div>
+
+          <button class="button button-red trial-copy-application" type="button" data-copy-trial="application">复制体验申请内容</button>
+
+          <div class="trial-download-card">
+            <span class="trial-mini-label">Download</span>
+            <strong>客户端与 Skill 下载页</strong>
+            <span>https://sender.03110357.xyz/#download</span>
+            <div class="trial-download-actions">
+              <a class="button button-light" href="#download" data-close-trial-modal>查看下载区 ↓</a>
+              <button class="trial-small-button" type="button" data-copy-trial="download">复制下载链接</button>
+            </div>
+          </div>
+
+          <div class="trial-steps" aria-label="体验申请步骤">
+            <div class="trial-step"><b>01</b><span>添加客服微信</span></div>
+            <div class="trial-step"><b>02</b><span>发送申请信息</span></div>
+            <div class="trial-step"><b>03</b><span>审核后领取独立体验码</span></div>
+          </div>
+
+          <div class="trial-rules" aria-label="体验规则">
+            <span>限领取一次</span>
+            <span>限 1 台设备</span>
+            <span>首次激活后 7 天</span>
+          </div>
+
+          <p class="trial-response-time">工作时间内提交申请，通常 1 小时内回复。</p>
+          <p class="trial-copy-status" id="trialCopyStatus" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const trialModal = document.querySelector("#trialModal");
+    const trialModalOpenButtons = document.querySelectorAll("[data-open-trial-modal]");
+    const trialModalCloseButton = document.querySelector("#closeTrialModalButton");
+    const trialCopyStatus = document.querySelector("#trialCopyStatus");
+    const trialCopyButtons = document.querySelectorAll("[data-copy-trial]");
+    let lastTrialModalTrigger = null;
+
+    const trialCopyValues = {
+      wechat: "ablink185",
+      download: "https://sender.03110357.xyz/#download",
+      application: `你好，我想申请“微信本地通知助手”7 天体验码。
+
+使用的桌面 Agent：
+主要使用场景：
+Windows 版本：`
+    };
+
+    function openTrialModal(trigger) {
+      lastTrialModalTrigger = trigger;
+      trialModal.hidden = false;
+      document.body.classList.add("trial-modal-open");
+      trialCopyStatus.textContent = "";
+      trialModalCloseButton.focus();
+    }
+
+    function closeTrialModal() {
+      trialModal.hidden = true;
+      document.body.classList.remove("trial-modal-open");
+      if (lastTrialModalTrigger) {
+        lastTrialModalTrigger.focus();
       }
+    }
+
+    async function copyTrialText(text) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        try {
+          await Promise.race([
+            navigator.clipboard.writeText(text),
+            new Promise((_, reject) => setTimeout(() => reject(new Error("clipboard timeout")), 1200))
+          ]);
+          return;
+        } catch (error) {
+          // Continue to the selection-based fallback for restricted mobile browsers.
+        }
+      }
+
+      const field = document.createElement("textarea");
+      field.value = text;
+      field.style.position = "fixed";
+      field.style.opacity = "0";
+      document.body.appendChild(field);
+      field.select();
+      const copied = document.execCommand("copy");
+      field.remove();
+      if (!copied) {
+        throw new Error("clipboard unavailable");
+      }
+    }
+
+    trialModalOpenButtons.forEach((button) => {
+      button.addEventListener("click", () => openTrialModal(button));
+    });
+
+    trialModalCloseButton.addEventListener("click", closeTrialModal);
+
+    trialModal.addEventListener("click", (event) => {
+      if (event.target === trialModal) {
+        closeTrialModal();
+      }
+    });
+
+    document.querySelectorAll("[data-close-trial-modal]").forEach((element) => {
+      element.addEventListener("click", closeTrialModal);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !trialModal.hidden) {
+        closeTrialModal();
+      }
+    });
+
+    trialCopyButtons.forEach((button) => {
+      button.addEventListener("click", async () => {
+        const copyType = button.dataset.copyTrial;
+        const text = trialCopyValues[copyType];
+        const successMessages = {
+          wechat: "微信号已复制，请打开微信搜索添加。",
+          application: "体验申请内容已复制，添加微信后粘贴发送。",
+          download: "下载链接已复制。"
+        };
+
+        trialCopyStatus.textContent = "正在复制…";
+        try {
+          await copyTrialText(text);
+          trialCopyStatus.textContent = successMessages[copyType];
+        } catch (error) {
+          trialCopyStatus.textContent = `复制失败，请手动复制：${text}`;
+        }
+      });
     });
   </script>
 </body>
