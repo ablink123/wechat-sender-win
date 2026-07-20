@@ -754,7 +754,7 @@
     }
 
     .trial-dialog {
-      width: min(940px, 100%);
+      width: min(1120px, 100%);
       max-height: min(90vh, 820px);
       overflow: auto;
       padding: 0;
@@ -812,14 +812,167 @@
 
     .trial-dialog-grid {
       display: grid;
-      grid-template-columns: minmax(260px, 0.78fr) minmax(0, 1.22fr);
+      grid-template-columns: minmax(0, 1.16fr) minmax(280px, 0.84fr);
       gap: 0;
     }
 
-    .trial-qr-panel {
+    .trial-qr-panel,
+    .trial-form-panel {
       border-right: 4px solid var(--ink);
       padding: 24px;
       background: var(--white);
+    }
+
+    .trial-form-panel {
+      display: grid;
+      gap: 10px;
+      align-content: start;
+    }
+
+    .trial-form {
+      display: grid;
+      gap: 9px;
+      align-content: start;
+    }
+
+    .trial-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .trial-field {
+      display: grid;
+      gap: 4px;
+    }
+
+    .trial-field span,
+    .trial-checkbox-group > span {
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 950;
+      text-transform: uppercase;
+    }
+
+    .trial-field input,
+    .trial-field select,
+    .trial-field textarea {
+      width: 100%;
+      border: 3px solid var(--ink);
+      border-radius: 0;
+      padding: 8px 10px;
+      color: var(--ink);
+      background: var(--paper);
+      font: inherit;
+      font-weight: 800;
+    }
+
+    .trial-field textarea {
+      min-height: 74px;
+      resize: vertical;
+    }
+
+    .trial-checkbox-group {
+      display: grid;
+      gap: 6px;
+    }
+
+    .trial-agent-options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .trial-agent-options label {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      border: 2px solid var(--ink);
+      padding: 6px 8px;
+      background: var(--paper-strong);
+      font-size: 0.82rem;
+      font-weight: 900;
+    }
+
+    .trial-agent-other {
+      grid-column: 1 / -1;
+      display: grid !important;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 8px !important;
+      align-items: center;
+    }
+
+    .trial-agent-other input[type="text"] {
+      min-width: 0;
+      border: 0;
+      border-left: 2px solid var(--ink);
+      padding: 4px 8px;
+      color: var(--ink);
+      background: var(--white);
+      font: inherit;
+      font-weight: 850;
+    }
+
+    .trial-form-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .trial-form-note {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      align-self: start;
+      margin: 0;
+      border: 3px solid var(--ink);
+      border-left: 8px solid var(--red);
+      padding: 6px 10px;
+      background: var(--white);
+      box-shadow: 4px 4px 0 var(--paper-strong);
+      font-size: clamp(0.94rem, 1.25vw, 1.06rem);
+      font-weight: 950;
+      line-height: 1.08;
+    }
+
+    .trial-form-note span {
+      display: block;
+      letter-spacing: 0;
+    }
+
+    .trial-note-blue {
+      color: var(--ink);
+    }
+
+    .trial-note-red {
+      color: var(--red);
+    }
+
+    .trial-note-green {
+      color: var(--green);
+    }
+
+    .trial-note-muted {
+      color: var(--muted);
+    }
+
+    .trial-confirm-check {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      border: 3px solid var(--ink);
+      padding: 9px 10px;
+      background: var(--white);
+      font-size: 0.86rem;
+      font-weight: 900;
+      line-height: 1.32;
+    }
+
+    .trial-confirm-check input {
+      width: 20px;
+      height: 20px;
+      margin-top: 1px;
+      flex: 0 0 auto;
     }
 
     .trial-qr-frame {
@@ -841,6 +994,11 @@
       font-size: 0.9rem;
       font-weight: 800;
       text-align: center;
+    }
+
+    .trial-contact-panel .trial-qr-panel {
+      border: 3px solid var(--ink);
+      padding: 18px;
     }
 
     .trial-contact-panel {
@@ -1223,6 +1381,16 @@
         padding: 18px;
       }
 
+      .trial-contact-panel .trial-qr-panel {
+        border: 3px solid var(--ink);
+      }
+
+      .trial-form-panel {
+        border-right: 0;
+        border-bottom: 4px solid var(--ink);
+        padding: 18px;
+      }
+
       .trial-contact-panel {
         order: 1;
       }
@@ -1236,6 +1404,9 @@
         padding: 18px;
       }
 
+      .trial-form-grid,
+      .trial-agent-options,
+      .trial-form-actions,
       .trial-wechat-row,
       .trial-download-actions,
       .trial-steps {
@@ -1548,30 +1719,104 @@
         <div>
           <span class="eyebrow">7 Day Trial</span>
           <h2 id="trialModalTitle">申请 7 天体验</h2>
-          <p id="trialModalDescription">添加产品客服微信，审核后领取独立体验码。</p>
+          <p id="trialModalDescription">先填写申请表，再添加客服微信；审核通过后体验码通过微信发放。</p>
         </div>
         <button class="trial-close" type="button" id="closeTrialModalButton" aria-label="关闭体验申请弹窗">×</button>
       </header>
 
       <div class="trial-dialog-grid">
-        <div class="trial-qr-panel">
-          <div class="trial-qr-frame">
-            <img src="assets/wechat-ablink185-qr.jpg" alt="产品客服个人微信 ablink185 二维码">
-          </div>
-          <p>电脑端用户使用微信扫码添加；手机端请复制微信号后在微信中搜索。</p>
+        <div class="trial-form-panel">
+          <p class="trial-form-note">
+            <span class="trial-note-blue">1. 填写下方申请表</span>
+            <span class="trial-note-red">2. 添加客服微信 ablink185</span>
+            <span class="trial-note-green">3. 好友留言：申请体验码</span>
+            <span class="trial-note-muted">4. 审核通过后，微信发放体验码</span>
+          </p>
+
+          <form class="trial-form" id="trialApplicationForm">
+            <div class="trial-checkbox-group">
+              <span>正在使用或准备使用的 Agent</span>
+              <div class="trial-agent-options" aria-label="Agent 工具">
+                <label><input type="checkbox" name="agent" value="Codex"> Codex</label>
+                <label><input type="checkbox" name="agent" value="Claude Code"> Claude Code</label>
+                <label><input type="checkbox" name="agent" value="WorkBuddy"> WorkBuddy</label>
+                <label><input type="checkbox" name="agent" value="Trae"> Trae</label>
+                <label><input type="checkbox" name="agent" value="阿里悟空"> 阿里悟空</label>
+                <label><input type="checkbox" name="agent" value="影刀或 UiBot"> 影刀 / UiBot</label>
+                <label class="trial-agent-other">
+                  <span><input type="checkbox" name="agent" value="其他" id="trialOtherAgentCheck"> 其他</span>
+                  <input type="text" id="trialOtherAgent" placeholder="填写其他 Agent 名称">
+                </label>
+              </div>
+            </div>
+
+            <label class="trial-field">
+              <span>主要用途</span>
+              <textarea id="trialUseCase" placeholder="例如：每天把客户跟进清单整理后，发送给指定微信联系人。"></textarea>
+            </label>
+
+            <div class="trial-form-grid">
+              <label class="trial-field">
+                <span>发送频率</span>
+                <select id="trialFrequency">
+                  <option value="每天几次">每天几次</option>
+                  <option value="每周固定几次">每周固定几次</option>
+                  <option value="客户跟进">客户跟进</option>
+                  <option value="偶尔">偶尔</option>
+                </select>
+              </label>
+              <label class="trial-field">
+                <span>系统环境</span>
+                <select id="trialSystem">
+                  <option value="Windows 11">Windows 11</option>
+                  <option value="Windows 10">Windows 10</option>
+                  <option value="Mac">Mac</option>
+                  <option value="其他">其他</option>
+                </select>
+              </label>
+              <label class="trial-field">
+                <span>客户微信号</span>
+                <input id="trialContact" required placeholder="填写你添加客服用的微信号">
+              </label>
+              <label class="trial-field">
+                <span>来源渠道</span>
+                <select id="trialSource">
+                  <option value="产品页">产品页</option>
+                  <option value="朋友推荐">朋友推荐</option>
+                  <option value="搜索">搜索</option>
+                  <option value="社群">社群</option>
+                  <option value="其他">其他</option>
+                </select>
+              </label>
+            </div>
+
+            <label class="trial-confirm-check">
+              <input id="trialWechatConfirmed" type="checkbox" required>
+              <span>我已添加客服微信 <strong>ablink185</strong>，好友申请留言写的是：<strong>申请体验码</strong>。</span>
+            </label>
+
+            <div class="trial-form-actions">
+              <button class="button button-red trial-copy-application" type="submit">我已了解规则，提交申请</button>
+            </div>
+          </form>
         </div>
 
         <div class="trial-contact-panel">
           <div class="trial-contact-card">
-            <span class="trial-mini-label">Personal WeChat</span>
+            <span class="trial-mini-label">Support WeChat</span>
             <div class="trial-wechat-row">
               <strong class="trial-wechat-id">ablink185</strong>
               <button class="trial-small-button" type="button" data-copy-trial="wechat">复制微信号</button>
             </div>
-            <p class="trial-remark">好友申请备注：<strong>体验申请 + 使用的 Agent</strong></p>
+            <p class="trial-remark">好友申请留言固定写：<strong>申请体验码</strong></p>
           </div>
 
-          <button class="button button-red trial-copy-application" type="button" data-copy-trial="application">复制体验申请内容</button>
+          <div class="trial-qr-panel">
+            <div class="trial-qr-frame">
+              <img src="assets/wechat-ablink185-qr.jpg" alt="产品客服个人微信 ablink185 二维码">
+            </div>
+            <p>电脑端用户可扫码添加；手机端请复制微信号后在微信中搜索。</p>
+          </div>
 
           <div class="trial-download-card">
             <span class="trial-mini-label">Download</span>
@@ -1584,15 +1829,16 @@
           </div>
 
           <div class="trial-steps" aria-label="体验申请步骤">
-            <div class="trial-step"><b>01</b><span>添加客服微信</span></div>
-            <div class="trial-step"><b>02</b><span>发送申请信息</span></div>
-            <div class="trial-step"><b>03</b><span>审核后领取独立体验码</span></div>
+            <div class="trial-step"><b>01</b><span>填写申请表</span></div>
+            <div class="trial-step"><b>02</b><span>加客服并留言申请体验码</span></div>
+            <div class="trial-step"><b>03</b><span>审核通过后微信收码</span></div>
           </div>
 
           <div class="trial-rules" aria-label="体验规则">
             <span>限领取一次</span>
             <span>限 1 台设备</span>
             <span>首次激活后 7 天</span>
+            <span>仅微信发放</span>
           </div>
 
           <p class="trial-response-time">工作时间内提交申请，通常 1 小时内回复。</p>
@@ -1608,17 +1854,44 @@
     const trialModalCloseButton = document.querySelector("#closeTrialModalButton");
     const trialCopyStatus = document.querySelector("#trialCopyStatus");
     const trialCopyButtons = document.querySelectorAll("[data-copy-trial]");
+    const trialApplicationForm = document.querySelector("#trialApplicationForm");
+    const trialUseCase = document.querySelector("#trialUseCase");
+    const trialFrequency = document.querySelector("#trialFrequency");
+    const trialSystem = document.querySelector("#trialSystem");
+    const trialContact = document.querySelector("#trialContact");
+    const trialSource = document.querySelector("#trialSource");
+    const trialWechatConfirmed = document.querySelector("#trialWechatConfirmed");
+    const trialOtherAgentCheck = document.querySelector("#trialOtherAgentCheck");
+    const trialOtherAgent = document.querySelector("#trialOtherAgent");
     let lastTrialModalTrigger = null;
 
     const trialCopyValues = {
       wechat: "ablink185",
-      download: "https://sender.03110357.xyz/#download",
-      application: `你好，我想申请“微信本地通知助手”7 天体验码。
-
-使用的桌面 Agent：
-主要使用场景：
-Windows 版本：`
+      download: "https://sender.03110357.xyz/#download"
     };
+
+    function buildTrialApplicationText() {
+      const agents = Array.from(document.querySelectorAll('input[name="agent"]:checked')).map((item) => {
+        if (item.value === "其他") {
+          return `其他：${trialOtherAgent.value.trim() || "未填写"}`;
+        }
+        return item.value;
+      });
+      const useCase = trialUseCase.value.trim() || "未填写";
+      const contact = trialContact.value.trim() || "未填写";
+      return `你好，我想申请“微信本地通知助手”7 天体验码。
+
+使用的桌面 Agent：${agents.length ? agents.join("、") : "未选择"}
+主要使用场景：${useCase}
+发送频率：${trialFrequency.value}
+系统环境：${trialSystem.value}
+客户微信号：${contact}
+来源渠道：${trialSource.value}
+已添加客服微信：${trialWechatConfirmed.checked ? "是" : "否"}
+好友申请留言：申请体验码
+
+我知道体验码首次激活后 7 天有效，限 1 台设备使用；审核通过后体验码会通过客服微信发放。`;
+    }
 
     function openTrialModal(trigger) {
       lastTrialModalTrigger = trigger;
@@ -1690,7 +1963,6 @@ Windows 版本：`
         const text = trialCopyValues[copyType];
         const successMessages = {
           wechat: "微信号已复制，请打开微信搜索添加。",
-          application: "体验申请内容已复制，添加微信后粘贴发送。",
           download: "下载链接已复制。"
         };
 
@@ -1702,6 +1974,32 @@ Windows 版本：`
           trialCopyStatus.textContent = `复制失败，请手动复制：${text}`;
         }
       });
+    });
+
+    trialApplicationForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const selectedAgents = document.querySelectorAll('input[name="agent"]:checked');
+      if (selectedAgents.length === 0) {
+        trialCopyStatus.textContent = "请至少选择一个正在使用或准备使用的 Agent。";
+        return;
+      }
+      if (trialOtherAgentCheck.checked && !trialOtherAgent.value.trim()) {
+        trialCopyStatus.textContent = "你勾选了“其他”，请填写其他 Agent 名称。";
+        trialOtherAgent.focus();
+        return;
+      }
+      if (!trialApplicationForm.reportValidity()) {
+        trialCopyStatus.textContent = "请先填写客户微信号，并确认已经添加客服微信。";
+        return;
+      }
+      const text = buildTrialApplicationText();
+      trialCopyStatus.textContent = "正在生成申请摘要…";
+      try {
+        await copyTrialText(text);
+        trialCopyStatus.textContent = "申请摘要已复制。请在客服微信里发送；审核通过后体验码将在微信发放。";
+      } catch (error) {
+        trialCopyStatus.textContent = `复制失败，请手动复制：${text}`;
+      }
     });
   </script>
 </body>
