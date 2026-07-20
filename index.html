@@ -854,6 +854,12 @@
       text-transform: uppercase;
     }
 
+    .required-marker {
+      color: var(--red);
+      font-style: normal;
+      font-weight: 950;
+    }
+
     .trial-field input,
     .trial-field select,
     .trial-field textarea {
@@ -1735,7 +1741,7 @@
 
           <form class="trial-form" id="trialApplicationForm">
             <div class="trial-checkbox-group">
-              <span>正在使用或准备使用的 Agent</span>
+              <span>正在使用或准备使用的 Agent <em class="required-marker">*必填</em></span>
               <div class="trial-agent-options" aria-label="Agent 工具">
                 <label><input type="checkbox" name="agent" value="Codex"> Codex</label>
                 <label><input type="checkbox" name="agent" value="Claude Code"> Claude Code</label>
@@ -1751,8 +1757,8 @@
             </div>
 
             <label class="trial-field">
-              <span>主要用途</span>
-              <textarea id="trialUseCase" placeholder="例如：每天把客户跟进清单整理后，发送给指定微信联系人。"></textarea>
+              <span>主要用途 <em class="required-marker">*必填</em></span>
+              <textarea id="trialUseCase" required placeholder="例如：每天把客户跟进清单整理后，发送给指定微信联系人。"></textarea>
             </label>
 
             <div class="trial-form-grid">
@@ -1775,8 +1781,8 @@
                 </select>
               </label>
               <label class="trial-field">
-                <span>客户微信号</span>
-                <input id="trialContact" required placeholder="填写你添加客服用的微信号">
+                <span>微信昵称 <em class="required-marker">*必填</em></span>
+                <input id="trialContact" required placeholder="填写你添加客服用的微信昵称">
               </label>
               <label class="trial-field">
                 <span>来源渠道</span>
@@ -2017,7 +2023,7 @@
         return;
       }
       if (!trialApplicationForm.reportValidity()) {
-        trialCopyStatus.textContent = "请先填写客户微信号，并确认已经添加客服微信。";
+        trialCopyStatus.textContent = "请先填写必填项，并确认已经添加客服微信。";
         return;
       }
       const payload = buildTrialApplicationPayload();
