@@ -1070,6 +1070,81 @@
       width: 100%;
     }
 
+    .trial-result-panel {
+      display: grid;
+      gap: 14px;
+      min-height: 100%;
+      align-content: start;
+      border: 3px solid var(--ink);
+      padding: 22px;
+      background: var(--paper);
+      box-shadow: 10px 10px 0 var(--paper-strong);
+    }
+
+    .trial-result-panel[hidden] {
+      display: none;
+    }
+
+    .trial-result-badge {
+      width: fit-content;
+      padding: 5px 10px;
+      color: var(--white);
+      background: var(--green);
+      font-size: 0.78rem;
+      font-weight: 950;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .trial-result-panel.is-error .trial-result-badge {
+      background: var(--red);
+    }
+
+    .trial-result-panel h3 {
+      margin: 0;
+      font-size: 1.95rem;
+      line-height: 1.05;
+    }
+
+    .trial-result-panel p {
+      margin: 0;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .trial-result-next {
+      display: grid;
+      gap: 8px;
+      margin-top: 4px;
+      padding: 14px;
+      border-left: 6px solid var(--red);
+      background: var(--white);
+      font-weight: 900;
+    }
+
+    .trial-result-next span {
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+
+    .trial-result-downloads {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .trial-result-downloads .button {
+      min-height: 44px;
+      padding: 0 14px;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    .trial-result-retry[hidden] {
+      display: none;
+    }
+
     .trial-download-card strong,
     .trial-download-card span {
       display: block;
@@ -1804,8 +1879,25 @@
 
             <div class="trial-form-actions">
               <button class="button button-red trial-submit-application" type="submit">我已了解规则，提交申请</button>
+              <p class="trial-copy-status" id="trialCopyStatus" role="status" aria-live="polite"></p>
             </div>
           </form>
+
+          <section class="trial-result-panel" id="trialResultPanel" hidden tabindex="-1" aria-live="polite">
+            <span class="trial-result-badge" id="trialResultBadge">已提交</span>
+            <h3 id="trialResultTitle">申请已提交</h3>
+            <p id="trialResultMessage">申请已经进入后台待审核。请保持客服微信好友状态，体验码审核通过后会通过微信发放。</p>
+            <div class="trial-result-next">
+              <strong>现在可以提前准备安装包</strong>
+              <span>先下载 Windows 客户端和 WorkBuddy Skill 压缩包；收到体验码后，直接激活试用。</span>
+            </div>
+            <div class="trial-result-downloads">
+              <a class="button button-red" href="assets/downloads/1-微信本地通知助手客户端-v0.1.0-rc2.exe" download>下载客户端</a>
+              <a class="button button-light" href="assets/downloads/2-WorkBuddy导入Skill-v0.1.0-rc2.zip" download>下载 Skill 压缩包</a>
+            </div>
+            <button class="button button-light trial-result-retry" id="trialResultRetryButton" type="button" hidden>返回修改并重试</button>
+            <p class="trial-copy-status" id="trialResultStatus" role="status" aria-live="polite"></p>
+          </section>
         </div>
 
         <div class="trial-contact-panel">
@@ -1849,7 +1941,6 @@
           </div>
 
           <p class="trial-response-time">工作时间内提交申请，通常 1 小时内回复。</p>
-          <p class="trial-copy-status" id="trialCopyStatus" role="status" aria-live="polite"></p>
         </div>
       </div>
     </section>
@@ -1871,7 +1962,15 @@
     const trialOtherAgentCheck = document.querySelector("#trialOtherAgentCheck");
     const trialOtherAgent = document.querySelector("#trialOtherAgent");
     const trialSubmitButton = trialApplicationForm.querySelector('button[type="submit"]');
+    const trialFormNote = document.querySelector(".trial-form-note");
+    const trialResultPanel = document.querySelector("#trialResultPanel");
+    const trialResultBadge = document.querySelector("#trialResultBadge");
+    const trialResultTitle = document.querySelector("#trialResultTitle");
+    const trialResultMessage = document.querySelector("#trialResultMessage");
+    const trialResultRetryButton = document.querySelector("#trialResultRetryButton");
+    const trialResultStatus = document.querySelector("#trialResultStatus");
     let lastTrialModalTrigger = null;
+    let trialApplicationSubmitted = false;
     const TRIAL_APPLICATION_API_URL = "https://dd-license-center-admin.netlify.app/api/public/trial-applications";
 
     const trialCopyValues = {
@@ -1897,7 +1996,10 @@
       lastTrialModalTrigger = trigger;
       trialModal.hidden = false;
       document.body.classList.add("trial-modal-open");
-      trialCopyStatus.textContent = "";
+      if (!trialApplicationSubmitted) {
+        trialCopyStatus.textContent = "";
+      }
+      trialResultStatus.textContent = "";
       trialModalCloseButton.focus();
     }
 
@@ -1966,14 +2068,20 @@
           download: "下载链接已复制。"
         };
 
-        trialCopyStatus.textContent = "正在复制…";
+        setTrialFeedback("正在复制…");
         try {
           await copyTrialText(text);
-          trialCopyStatus.textContent = successMessages[copyType];
+          setTrialFeedback(successMessages[copyType]);
         } catch (error) {
-          trialCopyStatus.textContent = `复制失败，请手动复制：${text}`;
+          setTrialFeedback(`复制失败，请手动复制：${text}`);
         }
       });
+    });
+
+    trialResultRetryButton.addEventListener("click", () => {
+      showTrialForm();
+      trialCopyStatus.textContent = "请检查信息后重新提交。";
+      trialSubmitButton.focus();
     });
 
     async function submitTrialApplication(payload) {
@@ -2006,8 +2114,39 @@
       }
     }
 
+    function showTrialResult(type, message = "") {
+      const isError = type === "error";
+      trialResultPanel.classList.toggle("is-error", isError);
+      trialResultBadge.textContent = isError ? "提交失败" : "已提交";
+      trialResultTitle.textContent = isError ? "申请暂未提交成功" : "申请已提交";
+      trialResultMessage.textContent = isError
+        ? message
+        : "申请已经进入后台待审核。请保持客服微信好友状态，体验码审核通过后会通过微信发放。";
+      trialResultRetryButton.hidden = !isError;
+      trialFormNote.hidden = true;
+      trialApplicationForm.hidden = true;
+      trialResultPanel.hidden = false;
+      trialResultPanel.focus();
+    }
+
+    function showTrialForm() {
+      trialResultPanel.hidden = true;
+      trialFormNote.hidden = false;
+      trialApplicationForm.hidden = false;
+      trialSubmitButton.disabled = false;
+    }
+
+    function setTrialFeedback(message) {
+      const target = trialApplicationForm.hidden && !trialResultPanel.hidden ? trialResultStatus : trialCopyStatus;
+      target.textContent = message;
+    }
+
     trialApplicationForm.addEventListener("submit", async (event) => {
       event.preventDefault();
+      if (trialApplicationSubmitted) {
+        showTrialResult("success");
+        return;
+      }
       const selectedAgents = document.querySelectorAll('input[name="agent"]:checked');
       if (selectedAgents.length === 0) {
         trialCopyStatus.textContent = "请至少选择一个正在使用或准备使用的 Agent。";
@@ -2032,11 +2171,14 @@
       trialCopyStatus.textContent = "正在提交申请到后台…";
       try {
         await submitTrialApplication(payload);
-        trialCopyStatus.textContent = "申请已提交到后台。请保持客服微信好友状态；审核通过后体验码将在微信发放。";
+        trialApplicationSubmitted = true;
+        showTrialResult("success");
       } catch (error) {
-        trialCopyStatus.textContent = error.message || "后台提交失败，请稍后重试。";
+        showTrialResult("error", error.message || "后台提交失败，请稍后重试。");
       } finally {
-        trialSubmitButton.disabled = false;
+        if (!trialApplicationSubmitted) {
+          trialSubmitButton.disabled = false;
+        }
       }
     });
   </script>
