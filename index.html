@@ -1059,7 +1059,7 @@
       font-weight: 800;
     }
 
-    .trial-copy-application {
+    .trial-submit-application {
       width: 100%;
     }
 
@@ -1796,7 +1796,7 @@
             </label>
 
             <div class="trial-form-actions">
-              <button class="button button-red trial-copy-application" type="submit">我已了解规则，提交申请</button>
+              <button class="button button-red trial-submit-application" type="submit">我已了解规则，提交申请</button>
             </div>
           </form>
         </div>
@@ -1872,15 +1872,6 @@
       download: "https://sender.03110357.xyz/#download"
     };
 
-    function getTrialAgentSelections() {
-      return Array.from(document.querySelectorAll('input[name="agent"]:checked')).map((item) => {
-        if (item.value === "其他") {
-          return `其他：${trialOtherAgent.value.trim() || "未填写"}`;
-        }
-        return item.value;
-      });
-    }
-
     function buildTrialApplicationPayload() {
       const rawAgents = Array.from(document.querySelectorAll('input[name="agent"]:checked')).map((item) => item.value);
       return {
@@ -1893,24 +1884,6 @@
         source: trialSource.value,
         hasAddedSupportWechat: trialWechatConfirmed.checked
       };
-    }
-
-    function buildTrialApplicationText() {
-      const agents = getTrialAgentSelections();
-      const useCase = trialUseCase.value.trim() || "未填写";
-      const contact = trialContact.value.trim() || "未填写";
-      return `你好，我想申请“微信本地通知助手”7 天体验码。
-
-使用的桌面 Agent：${agents.length ? agents.join("、") : "未选择"}
-主要使用场景：${useCase}
-发送频率：${trialFrequency.value}
-系统环境：${trialSystem.value}
-客户微信号：${contact}
-来源渠道：${trialSource.value}
-已添加客服微信：${trialWechatConfirmed.checked ? "是" : "否"}
-好友申请留言：申请体验码
-
-我知道体验码首次激活后 7 天有效，限 1 台设备使用；审核通过后体验码会通过客服微信发放。`;
     }
 
     function openTrialModal(trigger) {
@@ -2047,21 +2020,14 @@
         trialCopyStatus.textContent = "请先填写客户微信号，并确认已经添加客服微信。";
         return;
       }
-      const text = buildTrialApplicationText();
       const payload = buildTrialApplicationPayload();
       trialSubmitButton.disabled = true;
       trialCopyStatus.textContent = "正在提交申请到后台…";
       try {
         await submitTrialApplication(payload);
-        await copyTrialText(text);
-        trialCopyStatus.textContent = "申请已提交到后台，申请摘要也已复制。请在客服微信里发送摘要；审核通过后体验码将在微信发放。";
+        trialCopyStatus.textContent = "申请已提交到后台。请保持客服微信好友状态；审核通过后体验码将在微信发放。";
       } catch (error) {
-        try {
-          await copyTrialText(text);
-          trialCopyStatus.textContent = `${error.message || "后台提交失败"}；申请摘要已复制，请先在客服微信里发送摘要。`;
-        } catch (_copyError) {
-          trialCopyStatus.textContent = `${error.message || "后台提交失败"}；请手动复制并通过客服微信发送：${text}`;
-        }
+        trialCopyStatus.textContent = error.message || "后台提交失败，请稍后重试。";
       } finally {
         trialSubmitButton.disabled = false;
       }
