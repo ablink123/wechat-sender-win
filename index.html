@@ -1863,20 +1863,40 @@
     const trialWechatConfirmed = document.querySelector("#trialWechatConfirmed");
     const trialOtherAgentCheck = document.querySelector("#trialOtherAgentCheck");
     const trialOtherAgent = document.querySelector("#trialOtherAgent");
+    const trialSubmitButton = trialApplicationForm.querySelector('button[type="submit"]');
     let lastTrialModalTrigger = null;
+    const TRIAL_APPLICATION_API_URL = "https://dd-license-center-admin.netlify.app/api/public/trial-applications";
 
     const trialCopyValues = {
       wechat: "ablink185",
       download: "https://sender.03110357.xyz/#download"
     };
 
-    function buildTrialApplicationText() {
-      const agents = Array.from(document.querySelectorAll('input[name="agent"]:checked')).map((item) => {
+    function getTrialAgentSelections() {
+      return Array.from(document.querySelectorAll('input[name="agent"]:checked')).map((item) => {
         if (item.value === "其他") {
           return `其他：${trialOtherAgent.value.trim() || "未填写"}`;
         }
         return item.value;
       });
+    }
+
+    function buildTrialApplicationPayload() {
+      const rawAgents = Array.from(document.querySelectorAll('input[name="agent"]:checked')).map((item) => item.value);
+      return {
+        customerWechat: trialContact.value.trim(),
+        agentTools: rawAgents,
+        otherAgent: trialOtherAgent.value.trim(),
+        useCase: trialUseCase.value.trim(),
+        frequency: trialFrequency.value,
+        system: trialSystem.value,
+        source: trialSource.value,
+        hasAddedSupportWechat: trialWechatConfirmed.checked
+      };
+    }
+
+    function buildTrialApplicationText() {
+      const agents = getTrialAgentSelections();
       const useCase = trialUseCase.value.trim() || "未填写";
       const contact = trialContact.value.trim() || "未填写";
       return `你好，我想申请“微信本地通知助手”7 天体验码。
@@ -1976,6 +1996,36 @@
       });
     });
 
+    async function submitTrialApplication(payload) {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 15000);
+      try {
+        const response = await fetch(TRIAL_APPLICATION_API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+          cache: "no-store",
+          signal: controller.signal
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) {
+          const code = data.error && data.error.code ? ` [${data.error.code}]` : "";
+          throw new Error(`${data.error?.message || `提交失败，HTTP ${response.status}`}${code}`);
+        }
+        return data;
+      } catch (error) {
+        if (error.name === "AbortError") {
+          throw new Error("授权中心响应超时，请稍后重试。 [TIMEOUT]");
+        }
+        if (error instanceof TypeError) {
+          throw new Error("无法连接授权中心，请检查网络后重试。 [NETWORK_ERROR]");
+        }
+        throw error;
+      } finally {
+        clearTimeout(timeout);
+      }
+    }
+
     trialApplicationForm.addEventListener("submit", async (event) => {
       event.preventDefault();
       const selectedAgents = document.querySelectorAll('input[name="agent"]:checked');
@@ -1988,17 +2038,32 @@
         trialOtherAgent.focus();
         return;
       }
+      if (trialSystem.value === "Mac") {
+        trialCopyStatus.textContent = "当前客户端不支持 Mac 系统，请使用 Windows 10/11 环境申请体验码。";
+        trialSystem.focus();
+        return;
+      }
       if (!trialApplicationForm.reportValidity()) {
         trialCopyStatus.textContent = "请先填写客户微信号，并确认已经添加客服微信。";
         return;
       }
       const text = buildTrialApplicationText();
-      trialCopyStatus.textContent = "正在生成申请摘要…";
+      const payload = buildTrialApplicationPayload();
+      trialSubmitButton.disabled = true;
+      trialCopyStatus.textContent = "正在提交申请到后台…";
       try {
+        await submitTrialApplication(payload);
         await copyTrialText(text);
-        trialCopyStatus.textContent = "申请摘要已复制。请在客服微信里发送；审核通过后体验码将在微信发放。";
+        trialCopyStatus.textContent = "申请已提交到后台，申请摘要也已复制。请在客服微信里发送摘要；审核通过后体验码将在微信发放。";
       } catch (error) {
-        trialCopyStatus.textContent = `复制失败，请手动复制：${text}`;
+        try {
+          await copyTrialText(text);
+          trialCopyStatus.textContent = `${error.message || "后台提交失败"}；申请摘要已复制，请先在客服微信里发送摘要。`;
+        } catch (_copyError) {
+          trialCopyStatus.textContent = `${error.message || "后台提交失败"}；请手动复制并通过客服微信发送：${text}`;
+        }
+      } finally {
+        trialSubmitButton.disabled = false;
       }
     });
   </script>
