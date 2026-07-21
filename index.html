@@ -427,7 +427,7 @@
     }
 
     .download-band::before {
-      content: "RC2 / WINDOWS CLIENT / WORKBUDDY SKILL /";
+      content: "RC3 / AUTO TRIAL / WINDOWS CLIENT / WORKBUDDY SKILL /";
       position: absolute;
       top: 28px;
       right: -42px;
@@ -734,505 +734,6 @@
       font-weight: 900;
     }
 
-    body.trial-modal-open {
-      overflow: hidden;
-    }
-
-    .trial-modal[hidden] {
-      display: none;
-    }
-
-    .trial-modal {
-      position: fixed;
-      z-index: 100;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      padding: 24px;
-      background: rgba(6, 26, 58, 0.76);
-      backdrop-filter: blur(10px);
-    }
-
-    .trial-dialog {
-      width: min(1120px, 100%);
-      max-height: min(90vh, 820px);
-      overflow: auto;
-      padding: 0;
-      border: 4px solid var(--ink);
-      background:
-        linear-gradient(var(--line) 1px, transparent 1px),
-        linear-gradient(90deg, var(--line) 1px, transparent 1px),
-        var(--paper);
-      background-size: 40px 40px, 40px 40px, auto;
-      box-shadow: 18px 18px 0 var(--red);
-    }
-
-    .trial-dialog-head {
-      display: flex;
-      gap: 20px;
-      align-items: flex-start;
-      justify-content: space-between;
-      border-bottom: 4px solid var(--ink);
-      padding: 24px 26px 22px;
-      background: rgba(255, 255, 255, 0.92);
-    }
-
-    .trial-dialog-head .eyebrow {
-      margin-bottom: 10px;
-    }
-
-    .trial-dialog-head h2 {
-      margin: 0;
-      font-size: clamp(2.4rem, 6vw, 4.5rem);
-      line-height: 0.94;
-    }
-
-    .trial-dialog-head p {
-      margin: 12px 0 0;
-      color: var(--muted);
-      font-weight: 800;
-    }
-
-    .trial-close {
-      width: 48px;
-      height: 48px;
-      flex: 0 0 auto;
-      border: 3px solid var(--ink);
-      color: var(--ink);
-      background: var(--paper);
-      font-size: 1.7rem;
-      font-weight: 900;
-      cursor: pointer;
-    }
-
-    .trial-close:hover {
-      color: var(--white);
-      background: var(--red);
-    }
-
-    .trial-dialog-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.16fr) minmax(280px, 0.84fr);
-      gap: 0;
-    }
-
-    .trial-qr-panel,
-    .trial-form-panel {
-      border-right: 4px solid var(--ink);
-      padding: 24px;
-      background: var(--white);
-    }
-
-    .trial-form-panel {
-      display: grid;
-      gap: 10px;
-      align-content: start;
-    }
-
-    .trial-form {
-      display: grid;
-      gap: 9px;
-      align-content: start;
-    }
-
-    .trial-form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 9px;
-    }
-
-    .trial-field {
-      display: grid;
-      gap: 4px;
-    }
-
-    .trial-field span,
-    .trial-checkbox-group > span {
-      color: var(--muted);
-      font-size: 0.76rem;
-      font-weight: 950;
-      text-transform: uppercase;
-    }
-
-    .required-marker {
-      color: var(--red);
-      font-style: normal;
-      font-weight: 950;
-    }
-
-    .trial-field input,
-    .trial-field select,
-    .trial-field textarea {
-      width: 100%;
-      border: 3px solid var(--ink);
-      border-radius: 0;
-      padding: 8px 10px;
-      color: var(--ink);
-      background: var(--paper);
-      font: inherit;
-      font-weight: 800;
-    }
-
-    .trial-field textarea {
-      min-height: 74px;
-      resize: vertical;
-    }
-
-    .trial-checkbox-group {
-      display: grid;
-      gap: 6px;
-    }
-
-    .trial-agent-options {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 6px;
-    }
-
-    .trial-agent-options label {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-      border: 2px solid var(--ink);
-      padding: 6px 8px;
-      background: var(--paper-strong);
-      font-size: 0.82rem;
-      font-weight: 900;
-    }
-
-    .trial-agent-other {
-      grid-column: 1 / -1;
-      display: grid !important;
-      grid-template-columns: auto minmax(0, 1fr);
-      gap: 8px !important;
-      align-items: center;
-    }
-
-    .trial-agent-other input[type="text"] {
-      min-width: 0;
-      border: 0;
-      border-left: 2px solid var(--ink);
-      padding: 4px 8px;
-      color: var(--ink);
-      background: var(--white);
-      font: inherit;
-      font-weight: 850;
-    }
-
-    .trial-form-actions {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-    }
-
-    .trial-form-note {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      align-self: start;
-      margin: 0;
-      border: 3px solid var(--ink);
-      border-left: 8px solid var(--red);
-      padding: 6px 10px;
-      background: var(--white);
-      box-shadow: 4px 4px 0 var(--paper-strong);
-      font-size: clamp(0.94rem, 1.25vw, 1.06rem);
-      font-weight: 950;
-      line-height: 1.08;
-    }
-
-    .trial-form-note span {
-      display: block;
-      letter-spacing: 0;
-    }
-
-    .trial-note-blue {
-      color: var(--ink);
-    }
-
-    .trial-note-red {
-      color: var(--red);
-    }
-
-    .trial-note-green {
-      color: var(--green);
-    }
-
-    .trial-note-muted {
-      color: var(--muted);
-    }
-
-    .trial-confirm-check {
-      display: flex;
-      gap: 8px;
-      align-items: flex-start;
-      border: 3px solid var(--ink);
-      padding: 9px 10px;
-      background: var(--white);
-      font-size: 0.86rem;
-      font-weight: 900;
-      line-height: 1.32;
-    }
-
-    .trial-confirm-check input {
-      width: 20px;
-      height: 20px;
-      margin-top: 1px;
-      flex: 0 0 auto;
-    }
-
-    .trial-qr-frame {
-      width: min(52%, 180px);
-      margin: 0 auto;
-      border: 3px solid var(--ink);
-      padding: 8px;
-      background: var(--white);
-      box-shadow: 6px 6px 0 var(--paper-strong);
-    }
-
-    .trial-qr-frame img {
-      width: 100%;
-      object-fit: contain;
-    }
-
-    .trial-qr-panel p {
-      margin: 10px 0 0;
-      color: var(--muted);
-      font-size: 0.9rem;
-      font-weight: 800;
-      text-align: center;
-    }
-
-    .trial-contact-panel .trial-qr-panel {
-      border: 3px solid var(--ink);
-      padding: 12px;
-    }
-
-    .trial-contact-panel {
-      display: grid;
-      gap: 16px;
-      padding: 24px;
-    }
-
-    .trial-contact-card,
-    .trial-download-card {
-      border: 3px solid var(--ink);
-      padding: 18px;
-      background: var(--white);
-    }
-
-    .trial-mini-label {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--red);
-      font-size: 0.74rem;
-      font-weight: 950;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .trial-wechat-row {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .trial-wechat-id {
-      overflow-wrap: anywhere;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 2rem;
-      font-weight: 900;
-    }
-
-    .trial-small-button {
-      min-height: 42px;
-      border: 3px solid var(--ink);
-      padding: 0 14px;
-      color: var(--white);
-      background: var(--ink);
-      font-weight: 900;
-      cursor: pointer;
-    }
-
-    .trial-small-button:hover {
-      color: var(--white);
-      background: var(--red);
-    }
-
-    .trial-remark {
-      margin: 12px 0 0;
-      color: var(--muted);
-      font-weight: 800;
-    }
-
-    .trial-submit-application {
-      width: 100%;
-    }
-
-    .trial-result-panel {
-      display: grid;
-      gap: 14px;
-      min-height: 100%;
-      align-content: start;
-      border: 3px solid var(--ink);
-      padding: 22px;
-      background: var(--paper);
-      box-shadow: 10px 10px 0 var(--paper-strong);
-    }
-
-    .trial-result-panel[hidden] {
-      display: none;
-    }
-
-    .trial-result-badge {
-      width: fit-content;
-      padding: 5px 10px;
-      color: var(--white);
-      background: var(--green);
-      font-size: 0.78rem;
-      font-weight: 950;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    .trial-result-panel.is-error .trial-result-badge {
-      background: var(--red);
-    }
-
-    .trial-result-panel h3 {
-      margin: 0;
-      font-size: 1.95rem;
-      line-height: 1.05;
-    }
-
-    .trial-result-panel p {
-      margin: 0;
-      color: var(--muted);
-      font-weight: 800;
-    }
-
-    .trial-result-next {
-      display: grid;
-      gap: 8px;
-      margin-top: 4px;
-      padding: 14px;
-      border-left: 6px solid var(--red);
-      background: var(--white);
-      font-weight: 900;
-    }
-
-    .trial-result-next span {
-      color: var(--muted);
-      font-size: 0.86rem;
-      font-weight: 800;
-    }
-
-    .trial-result-downloads {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .trial-result-downloads .button {
-      min-height: 44px;
-      padding: 0 14px;
-      font-size: 0.9rem;
-      text-align: center;
-    }
-
-    .trial-result-retry[hidden] {
-      display: none;
-    }
-
-    .trial-download-card strong,
-    .trial-download-card span {
-      display: block;
-    }
-
-    .trial-download-card span {
-      margin: 6px 0 14px;
-      overflow-wrap: anywhere;
-      color: var(--muted);
-      font-family: "Courier New", monospace;
-      font-size: 0.82rem;
-      font-weight: 800;
-    }
-
-    .trial-download-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .trial-download-actions .button,
-    .trial-download-actions .trial-small-button {
-      min-height: 44px;
-      width: 100%;
-      padding: 0 12px;
-      font-size: 0.88rem;
-    }
-
-    .trial-steps {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      border: 3px solid var(--ink);
-      background: var(--ink);
-      gap: 1px;
-    }
-
-    .trial-step {
-      min-height: 92px;
-      padding: 14px;
-      background: var(--paper);
-    }
-
-    .trial-step b,
-    .trial-step span {
-      display: block;
-    }
-
-    .trial-step b {
-      margin-bottom: 8px;
-      color: var(--red);
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 1.5rem;
-    }
-
-    .trial-step span {
-      font-size: 0.86rem;
-      font-weight: 900;
-    }
-
-    .trial-rules {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .trial-rules span {
-      border: 2px solid var(--ink);
-      padding: 5px 9px;
-      background: var(--paper-strong);
-      font-size: 0.78rem;
-      font-weight: 900;
-    }
-
-    .trial-response-time {
-      margin: 0;
-      border-left: 6px solid var(--red);
-      padding: 10px 12px;
-      background: var(--white);
-      font-weight: 900;
-    }
-
-    .trial-copy-status {
-      min-height: 24px;
-      margin: 0;
-      color: var(--green);
-      font-weight: 900;
-    }
-
     .pricing-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1433,73 +934,6 @@
         padding: 58px 0;
       }
 
-      .trial-modal {
-        place-items: start center;
-        padding: 12px;
-      }
-
-      .trial-dialog {
-        max-height: calc(100vh - 24px);
-        box-shadow: 8px 8px 0 var(--red);
-      }
-
-      .trial-dialog-head {
-        padding: 18px;
-      }
-
-      .trial-dialog-head h2 {
-        font-size: 2.5rem;
-      }
-
-      .trial-dialog-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .trial-qr-panel {
-        order: 2;
-        border-right: 0;
-        border-bottom: 0;
-        border-top: 4px solid var(--ink);
-        padding: 18px;
-      }
-
-      .trial-contact-panel .trial-qr-panel {
-        border: 3px solid var(--ink);
-      }
-
-      .trial-form-panel {
-        border-right: 0;
-        border-bottom: 4px solid var(--ink);
-        padding: 18px;
-      }
-
-      .trial-contact-panel {
-        order: 1;
-      }
-
-      .trial-qr-frame {
-        width: min(50%, 155px);
-        margin: 0 auto;
-      }
-
-      .trial-contact-panel {
-        padding: 18px;
-      }
-
-      .trial-form-grid,
-      .trial-agent-options,
-      .trial-form-actions,
-      .trial-wechat-row,
-      .trial-download-actions,
-      .trial-steps {
-        grid-template-columns: 1fr;
-      }
-
-      .trial-wechat-row .trial-small-button {
-        width: 100%;
-      }
-    }
-
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
@@ -1524,7 +958,9 @@
         <a href="#video">视频</a>
         <a href="#flow">流程</a>
         <a href="#download">下载</a>
+        <a href="#guide">安装</a>
         <a href="#purchase">套餐</a>
+        <a href="#support">支持</a>
       </nav>
       <a class="button button-red" href="./buy.html">立即购买</a>
     </div>
@@ -1540,7 +976,7 @@
             <p class="lead">面向 Windows 11 个人微信桌面版的通用发送 Skill，可接入 WorkBuddy、阿里悟空、Trae、Claude Code、Codex 等桌面 Agent，让通知、报告、客户跟进和文件分发等自动化流程，最终通过微信触达联系人与群聊。</p>
             <div class="hero-actions">
               <a class="button button-red" href="#download">下载客户端</a>
-              <button class="button button-light" type="button" data-open-trial-modal>申请 7 天体验码</button>
+              <a class="button button-light" href="#download">首次联网自动试用 7 天</a>
               <a class="button button-light" href="./buy.html">查看套餐并购买</a>
             </div>
             <div class="hero-proof" aria-label="核心卖点">
@@ -1663,13 +1099,13 @@
       <div class="section-inner">
         <div class="section-head">
           <div class="section-kicker">Client Release</div>
-          <h2 id="download-title">WorkBuddy 用户只需下载两个文件，按顺序完成。</h2>
+          <h2 id="download-title">下载客户端，首次联网自动开启 7 天体验。</h2>
         </div>
 
         <div class="release-status" aria-label="发布版本信息">
-          <div><span>Version</span><strong>0.1.0-rc2</strong></div>
+          <div><span>Version</span><strong>0.1.0-rc3</strong></div>
           <div><span>Platform</span><strong>Windows 11 / 64-bit</strong></div>
-          <div><span>License</span><strong>trial_7d 单独领取</strong></div>
+          <div><span>Trial</span><strong>首次联网自动开启 7 天</strong></div>
         </div>
 
         <div class="download-requirement">
@@ -1682,10 +1118,11 @@
             <span class="download-step-number" aria-hidden="true">1</span>
             <span class="file-tag">第 1 步 · 先下载</span>
             <h3>安装 Windows 客户端</h3>
-            <p>双击安装后，输入体验码或付费授权码。体验授权和付费授权共用这一个客户端，无需另外下载体验版。</p>
-            <div class="file-meta"><span>EXE</span><span>9.9 MB</span><span>RC2</span></div>
-            <a class="button button-red" href="assets/downloads/1-微信本地通知助手客户端-v0.1.0-rc2.exe" download>下载 1 · Windows 客户端 ↓</a>
-            <div class="hash"><strong>SHA256</strong><br>9CAF3CEC93F309FB99EC48F9729914568DAB94EAFA7915EF9E2D32AEED903624</div>
+            <p>推荐使用安装器。首次联网打开会自动开启 7 天体验；购买套餐后，在客户端输入授权码激活付费期限。</p>
+            <div class="file-meta"><span>EXE</span><span>10.4 MB</span><span>RC3</span></div>
+            <a class="button button-red" href="assets/downloads/微信本地通知助手-v0.1.0-rc3-setup.exe" download>主下载 · Windows 安装器 ↓</a>
+            <a class="button button-light" href="assets/downloads/微信本地通知助手-v0.1.0-rc3.zip" download>备用下载 · 免安装测试包 ↓</a>
+            <div class="hash"><strong>安装器 SHA256</strong><br>1DC588717D4E7F1C017986469BA644B7E23AC1655D6BC96FA390057830DB3C53<br><br><strong>免安装包 SHA256</strong><br>674D49C2CB807399D85F0E3D2E7D5848FDC2705454446F83395EDFEDF2C57F0F</div>
           </article>
 
           <article class="download-card download-card-secondary">
@@ -1693,27 +1130,27 @@
             <span class="file-tag">第 2 步 · WorkBuddy</span>
             <h3>导入 WorkBuddy Skill</h3>
             <p>将 ZIP 原样导入 WorkBuddy，不要先解压。包内已配置客户端默认安装路径，常规用户无需手工复制或编辑配置文件。</p>
-            <div class="file-meta"><span>SKILL ZIP</span><span>5.6 KB</span><span>RC2</span></div>
-            <a class="button" href="assets/downloads/2-WorkBuddy导入Skill-v0.1.0-rc2.zip" download>下载 2 · WorkBuddy Skill ↓</a>
-            <div class="hash"><strong>SHA256</strong><br>0BDBF8EAEF49D2DA50ED3C2F2E557B2004C790BA0BDEA286C62FECF5FCA97962</div>
+            <div class="file-meta"><span>SKILL ZIP</span><span>6.0 KB</span><span>RC3</span></div>
+            <a class="button" href="assets/downloads/wechat-sender-workbuddy-skill-v0.1.0-rc3.zip" download>Agent 用户下载 · WorkBuddy Skill ↓</a>
+            <div class="hash"><strong>SHA256</strong><br>1113EDC8EEB20A20F447BDA9D4C78E24D6002031CACEB74E715B95230527921E</div>
           </article>
         </div>
 
         <div class="release-notes">
           <div class="release-note">
             <strong>⚠ Windows SmartScreen 提示</strong>
-            <p>当前 RC2 尚未数字签名，Windows 可能显示“未知发布者”。请先核对本页 SHA256，仅在明确了解来源时继续安装。</p>
+            <p>当前 RC3 尚未数字签名，Windows 可能显示“未知发布者”。请先核对本页 SHA256；确认来源后可选择“更多信息”→“仍要运行”。</p>
           </div>
           <div class="release-note">
             <strong>激活界面 ≠ 完整发送 GUI</strong>
-            <p>双击客户端后主要用于输入授权码。如需通过 WorkBuddy 自然语言调用，还需导入上方 Skill ZIP；授权码不会打包在网页、客户端或 Skill 内。</p>
+            <p>双击客户端后主要是试用/授权状态界面，不是完整发送 GUI。如需通过自然语言发送，还需导入上方 Agent Skill；授权码不会打包在网页、客户端或 Skill 内。</p>
           </div>
         </div>
 
-        <div class="install-track" aria-label="安装使用流程">
+        <div class="install-track" id="guide" aria-label="安装使用流程">
           <div class="install-step"><b>01 / DOWNLOAD</b><strong>下载安装器</strong></div>
           <div class="install-step"><b>02 / INSTALL</b><strong>安装并启动</strong></div>
-          <div class="install-step"><b>03 / ACTIVATE</b><strong>输入单独发放的授权码</strong></div>
+          <div class="install-step"><b>03 / TRIAL</b><strong>联网自动开启 7 天体验</strong></div>
           <div class="install-step"><b>04 / IMPORT</b><strong>Agent 用户导入 Skill</strong></div>
           <div class="install-step"><b>05 / PREVIEW</b><strong>先预览名单和文件</strong></div>
           <div class="install-step"><b>06 / SEND</b><strong>确认后执行发送</strong></div>
@@ -1733,12 +1170,12 @@
                 <h3>7 天体验</h3>
                 <div class="price-value">免费</div>
                 <ul>
-                  <li>完整功能</li>
+                  <li>每天最多发送给 20 个人或群</li>
                   <li>限 1 台设备</li>
-                  <li>首次激活后 7 天</li>
+                  <li>首次联网后连续 7 天</li>
                 </ul>
-                <div class="intent">个人微信人工审核，工作时间内申请通常 1 小时内回复。</div>
-                <button class="button" type="button" data-open-trial-modal>申请 7 天体验</button>
+                <div class="intent">无需申请体验码；同一 Windows 设备仅可试用一次。</div>
+                <a class="button" href="#download">下载并开始体验</a>
               </article>
               <article class="price-card">
                 <span class="price-label">Personal 90D</span>
@@ -1774,9 +1211,9 @@
                 <a class="button button-red" href="./buy.html?plan=team_multi_device">购买团队年版</a>
               </article>
             </div>
-            <p class="note">同一用户原则上仅可领取一次 7 天体验码。安装包可以重复下载；如需重装或遇到授权状态异常，请联系售后处理。</p>
+            <p class="note">试用额度按收件人计算：一次发给 5 人计 5 个；同一人发 3 次计 3 个；正文和附件同次发送只计 1 个；预览不计额度。北京时间每日 00:00 恢复。</p>
           </div>
-          <aside class="purchase-side" aria-label="购买前确认">
+          <aside class="purchase-side" id="support" aria-label="购买前确认">
             <span class="eyebrow">Checklist</span>
             <ul>
               <li>适用环境：Windows11 + 个人微信电脑端</li>
@@ -1784,6 +1221,7 @@
               <li>核心用途：为自动化流程提供消息、附件和任务结果的微信触达能力</li>
               <li>关键原则：先确认名单和文件，再执行发送</li>
               <li>使用边界：不承诺规避微信平台风控</li>
+              <li>售后支持：客户端复制支持编号，联系微信 ablink185</li>
             </ul>
           </aside>
         </div>
@@ -1795,392 +1233,6 @@
     <div class="section-inner">微信本地通知助手 / Windows 11 personal WeChat skill for desktop Agents</div>
   </footer>
 
-  <div class="trial-modal" id="trialModal" hidden>
-    <section class="trial-dialog" role="dialog" aria-modal="true" aria-labelledby="trialModalTitle" aria-describedby="trialModalDescription">
-      <header class="trial-dialog-head">
-        <div>
-          <span class="eyebrow">7 Day Trial</span>
-          <h2 id="trialModalTitle">申请 7 天体验</h2>
-          <p id="trialModalDescription">先填写申请表，再添加客服微信；审核通过后体验码通过微信发放。</p>
-        </div>
-        <button class="trial-close" type="button" id="closeTrialModalButton" aria-label="关闭体验申请弹窗">×</button>
-      </header>
-
-      <div class="trial-dialog-grid">
-        <div class="trial-form-panel">
-          <p class="trial-form-note">
-            <span class="trial-note-blue">1. 填写下方申请表</span>
-            <span class="trial-note-red">2. 添加客服微信 ablink185</span>
-            <span class="trial-note-green">3. 好友留言：申请体验码</span>
-            <span class="trial-note-muted">4. 审核通过后，微信发放体验码</span>
-          </p>
-
-          <form class="trial-form" id="trialApplicationForm">
-            <div class="trial-checkbox-group">
-              <span>正在使用或准备使用的 Agent <em class="required-marker">*必填</em></span>
-              <div class="trial-agent-options" aria-label="Agent 工具">
-                <label><input type="checkbox" name="agent" value="Codex"> Codex</label>
-                <label><input type="checkbox" name="agent" value="Claude Code"> Claude Code</label>
-                <label><input type="checkbox" name="agent" value="WorkBuddy"> WorkBuddy</label>
-                <label><input type="checkbox" name="agent" value="Trae"> Trae</label>
-                <label><input type="checkbox" name="agent" value="阿里悟空"> 阿里悟空</label>
-                <label><input type="checkbox" name="agent" value="影刀或 UiBot"> 影刀 / UiBot</label>
-                <label class="trial-agent-other">
-                  <span><input type="checkbox" name="agent" value="其他" id="trialOtherAgentCheck"> 其他</span>
-                  <input type="text" id="trialOtherAgent" placeholder="填写其他 Agent 名称">
-                </label>
-              </div>
-            </div>
-
-            <label class="trial-field">
-              <span>主要用途 <em class="required-marker">*必填</em></span>
-              <textarea id="trialUseCase" required placeholder="例如：每天把客户跟进清单整理后，发送给指定微信联系人。"></textarea>
-            </label>
-
-            <div class="trial-form-grid">
-              <label class="trial-field">
-                <span>发送频率</span>
-                <select id="trialFrequency">
-                  <option value="每天几次">每天几次</option>
-                  <option value="每周固定几次">每周固定几次</option>
-                  <option value="客户跟进">客户跟进</option>
-                  <option value="偶尔">偶尔</option>
-                </select>
-              </label>
-              <label class="trial-field">
-                <span>系统环境</span>
-                <select id="trialSystem">
-                  <option value="Windows 11">Windows 11</option>
-                  <option value="Windows 10">Windows 10</option>
-                  <option value="Mac">Mac</option>
-                  <option value="其他">其他</option>
-                </select>
-              </label>
-              <label class="trial-field">
-                <span>微信昵称 <em class="required-marker">*必填</em></span>
-                <input id="trialContact" required placeholder="填写你添加客服用的微信昵称">
-              </label>
-              <label class="trial-field">
-                <span>来源渠道</span>
-                <select id="trialSource">
-                  <option value="产品页">产品页</option>
-                  <option value="朋友推荐">朋友推荐</option>
-                  <option value="搜索">搜索</option>
-                  <option value="社群">社群</option>
-                  <option value="其他">其他</option>
-                </select>
-              </label>
-            </div>
-
-            <label class="trial-confirm-check">
-              <input id="trialWechatConfirmed" type="checkbox" required>
-              <span>我已添加客服微信 <strong>ablink185</strong>，好友申请留言写的是：<strong>申请体验码</strong>。</span>
-            </label>
-
-            <div class="trial-form-actions">
-              <button class="button button-red trial-submit-application" type="submit">我已了解规则，提交申请</button>
-              <p class="trial-copy-status" id="trialCopyStatus" role="status" aria-live="polite"></p>
-            </div>
-          </form>
-
-          <section class="trial-result-panel" id="trialResultPanel" hidden tabindex="-1" aria-live="polite">
-            <span class="trial-result-badge" id="trialResultBadge">已提交</span>
-            <h3 id="trialResultTitle">申请已提交</h3>
-            <p id="trialResultMessage">申请已经进入后台待审核。请保持客服微信好友状态，体验码审核通过后会通过微信发放。</p>
-            <div class="trial-result-next">
-              <strong>现在可以提前准备安装包</strong>
-              <span>先下载 Windows 客户端和 WorkBuddy Skill 压缩包；收到体验码后，直接激活试用。</span>
-            </div>
-            <div class="trial-result-downloads">
-              <a class="button button-red" href="assets/downloads/1-微信本地通知助手客户端-v0.1.0-rc2.exe" download>下载客户端</a>
-              <a class="button button-light" href="assets/downloads/2-WorkBuddy导入Skill-v0.1.0-rc2.zip" download>下载 Skill 压缩包</a>
-            </div>
-            <button class="button button-light trial-result-retry" id="trialResultRetryButton" type="button" hidden>返回修改并重试</button>
-            <p class="trial-copy-status" id="trialResultStatus" role="status" aria-live="polite"></p>
-          </section>
-        </div>
-
-        <div class="trial-contact-panel">
-          <div class="trial-contact-card">
-            <span class="trial-mini-label">Support WeChat</span>
-            <div class="trial-wechat-row">
-              <strong class="trial-wechat-id">ablink185</strong>
-              <button class="trial-small-button" type="button" data-copy-trial="wechat">复制微信号</button>
-            </div>
-            <p class="trial-remark">好友申请留言固定写：<strong>申请体验码</strong></p>
-          </div>
-
-          <div class="trial-qr-panel">
-            <div class="trial-qr-frame">
-              <img src="assets/wechat-ablink185-qr.jpg" alt="产品客服个人微信 ablink185 二维码">
-            </div>
-            <p>电脑端用户可扫码添加；手机端请复制微信号后在微信中搜索。</p>
-          </div>
-
-          <div class="trial-download-card">
-            <span class="trial-mini-label">Download</span>
-            <strong>客户端与 Skill 下载页</strong>
-            <span>https://sender.03110357.xyz/#download</span>
-            <div class="trial-download-actions">
-              <a class="button button-light" href="#download" data-close-trial-modal>查看下载区 ↓</a>
-              <button class="trial-small-button" type="button" data-copy-trial="download">复制下载链接</button>
-            </div>
-          </div>
-
-          <div class="trial-steps" aria-label="体验申请步骤">
-            <div class="trial-step"><b>01</b><span>填写申请表</span></div>
-            <div class="trial-step"><b>02</b><span>加客服并留言申请体验码</span></div>
-            <div class="trial-step"><b>03</b><span>审核通过后微信收码</span></div>
-          </div>
-
-          <div class="trial-rules" aria-label="体验规则">
-            <span>限领取一次</span>
-            <span>限 1 台设备</span>
-            <span>首次激活后 7 天</span>
-            <span>仅微信发放</span>
-          </div>
-
-          <p class="trial-response-time">工作时间内提交申请，通常 1 小时内回复。</p>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <script>
-    const trialModal = document.querySelector("#trialModal");
-    const trialModalOpenButtons = document.querySelectorAll("[data-open-trial-modal]");
-    const trialModalCloseButton = document.querySelector("#closeTrialModalButton");
-    const trialCopyStatus = document.querySelector("#trialCopyStatus");
-    const trialCopyButtons = document.querySelectorAll("[data-copy-trial]");
-    const trialApplicationForm = document.querySelector("#trialApplicationForm");
-    const trialUseCase = document.querySelector("#trialUseCase");
-    const trialFrequency = document.querySelector("#trialFrequency");
-    const trialSystem = document.querySelector("#trialSystem");
-    const trialContact = document.querySelector("#trialContact");
-    const trialSource = document.querySelector("#trialSource");
-    const trialWechatConfirmed = document.querySelector("#trialWechatConfirmed");
-    const trialOtherAgentCheck = document.querySelector("#trialOtherAgentCheck");
-    const trialOtherAgent = document.querySelector("#trialOtherAgent");
-    const trialSubmitButton = trialApplicationForm.querySelector('button[type="submit"]');
-    const trialFormNote = document.querySelector(".trial-form-note");
-    const trialResultPanel = document.querySelector("#trialResultPanel");
-    const trialResultBadge = document.querySelector("#trialResultBadge");
-    const trialResultTitle = document.querySelector("#trialResultTitle");
-    const trialResultMessage = document.querySelector("#trialResultMessage");
-    const trialResultRetryButton = document.querySelector("#trialResultRetryButton");
-    const trialResultStatus = document.querySelector("#trialResultStatus");
-    let lastTrialModalTrigger = null;
-    let trialApplicationSubmitted = false;
-    const TRIAL_APPLICATION_API_URL = "https://dd-license-center-admin.netlify.app/api/public/trial-applications";
-
-    const trialCopyValues = {
-      wechat: "ablink185",
-      download: "https://sender.03110357.xyz/#download"
-    };
-
-    function buildTrialApplicationPayload() {
-      const rawAgents = Array.from(document.querySelectorAll('input[name="agent"]:checked')).map((item) => item.value);
-      return {
-        customerWechat: trialContact.value.trim(),
-        agentTools: rawAgents,
-        otherAgent: trialOtherAgent.value.trim(),
-        useCase: trialUseCase.value.trim(),
-        frequency: trialFrequency.value,
-        system: trialSystem.value,
-        source: trialSource.value,
-        hasAddedSupportWechat: trialWechatConfirmed.checked
-      };
-    }
-
-    function openTrialModal(trigger) {
-      lastTrialModalTrigger = trigger;
-      trialModal.hidden = false;
-      document.body.classList.add("trial-modal-open");
-      if (!trialApplicationSubmitted) {
-        trialCopyStatus.textContent = "";
-      }
-      trialResultStatus.textContent = "";
-      trialModalCloseButton.focus();
-    }
-
-    function closeTrialModal() {
-      trialModal.hidden = true;
-      document.body.classList.remove("trial-modal-open");
-      if (lastTrialModalTrigger) {
-        lastTrialModalTrigger.focus();
-      }
-    }
-
-    async function copyTrialText(text) {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        try {
-          await Promise.race([
-            navigator.clipboard.writeText(text),
-            new Promise((_, reject) => setTimeout(() => reject(new Error("clipboard timeout")), 1200))
-          ]);
-          return;
-        } catch (error) {
-          // Continue to the selection-based fallback for restricted mobile browsers.
-        }
-      }
-
-      const field = document.createElement("textarea");
-      field.value = text;
-      field.style.position = "fixed";
-      field.style.opacity = "0";
-      document.body.appendChild(field);
-      field.select();
-      const copied = document.execCommand("copy");
-      field.remove();
-      if (!copied) {
-        throw new Error("clipboard unavailable");
-      }
-    }
-
-    trialModalOpenButtons.forEach((button) => {
-      button.addEventListener("click", () => openTrialModal(button));
-    });
-
-    trialModalCloseButton.addEventListener("click", closeTrialModal);
-
-    trialModal.addEventListener("click", (event) => {
-      if (event.target === trialModal) {
-        closeTrialModal();
-      }
-    });
-
-    document.querySelectorAll("[data-close-trial-modal]").forEach((element) => {
-      element.addEventListener("click", closeTrialModal);
-    });
-
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && !trialModal.hidden) {
-        closeTrialModal();
-      }
-    });
-
-    trialCopyButtons.forEach((button) => {
-      button.addEventListener("click", async () => {
-        const copyType = button.dataset.copyTrial;
-        const text = trialCopyValues[copyType];
-        const successMessages = {
-          wechat: "微信号已复制，请打开微信搜索添加。",
-          download: "下载链接已复制。"
-        };
-
-        setTrialFeedback("正在复制…");
-        try {
-          await copyTrialText(text);
-          setTrialFeedback(successMessages[copyType]);
-        } catch (error) {
-          setTrialFeedback(`复制失败，请手动复制：${text}`);
-        }
-      });
-    });
-
-    trialResultRetryButton.addEventListener("click", () => {
-      showTrialForm();
-      trialCopyStatus.textContent = "请检查信息后重新提交。";
-      trialSubmitButton.focus();
-    });
-
-    async function submitTrialApplication(payload) {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 15000);
-      try {
-        const response = await fetch(TRIAL_APPLICATION_API_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-          cache: "no-store",
-          signal: controller.signal
-        });
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok || !data.ok) {
-          const code = data.error && data.error.code ? ` [${data.error.code}]` : "";
-          throw new Error(`${data.error?.message || `提交失败，HTTP ${response.status}`}${code}`);
-        }
-        return data;
-      } catch (error) {
-        if (error.name === "AbortError") {
-          throw new Error("授权中心响应超时，请稍后重试。 [TIMEOUT]");
-        }
-        if (error instanceof TypeError) {
-          throw new Error("无法连接授权中心，请检查网络后重试。 [NETWORK_ERROR]");
-        }
-        throw error;
-      } finally {
-        clearTimeout(timeout);
-      }
-    }
-
-    function showTrialResult(type, message = "") {
-      const isError = type === "error";
-      trialResultPanel.classList.toggle("is-error", isError);
-      trialResultBadge.textContent = isError ? "提交失败" : "已提交";
-      trialResultTitle.textContent = isError ? "申请暂未提交成功" : "申请已提交";
-      trialResultMessage.textContent = isError
-        ? message
-        : "申请已经进入后台待审核。请保持客服微信好友状态，体验码审核通过后会通过微信发放。";
-      trialResultRetryButton.hidden = !isError;
-      trialFormNote.hidden = true;
-      trialApplicationForm.hidden = true;
-      trialResultPanel.hidden = false;
-      trialResultPanel.focus();
-    }
-
-    function showTrialForm() {
-      trialResultPanel.hidden = true;
-      trialFormNote.hidden = false;
-      trialApplicationForm.hidden = false;
-      trialSubmitButton.disabled = false;
-    }
-
-    function setTrialFeedback(message) {
-      const target = trialApplicationForm.hidden && !trialResultPanel.hidden ? trialResultStatus : trialCopyStatus;
-      target.textContent = message;
-    }
-
-    trialApplicationForm.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      if (trialApplicationSubmitted) {
-        showTrialResult("success");
-        return;
-      }
-      const selectedAgents = document.querySelectorAll('input[name="agent"]:checked');
-      if (selectedAgents.length === 0) {
-        trialCopyStatus.textContent = "请至少选择一个正在使用或准备使用的 Agent。";
-        return;
-      }
-      if (trialOtherAgentCheck.checked && !trialOtherAgent.value.trim()) {
-        trialCopyStatus.textContent = "你勾选了“其他”，请填写其他 Agent 名称。";
-        trialOtherAgent.focus();
-        return;
-      }
-      if (trialSystem.value === "Mac") {
-        trialCopyStatus.textContent = "当前客户端不支持 Mac 系统，请使用 Windows 10/11 环境申请体验码。";
-        trialSystem.focus();
-        return;
-      }
-      if (!trialApplicationForm.reportValidity()) {
-        trialCopyStatus.textContent = "请先填写必填项，并确认已经添加客服微信。";
-        return;
-      }
-      const payload = buildTrialApplicationPayload();
-      trialSubmitButton.disabled = true;
-      trialCopyStatus.textContent = "正在提交申请到后台…";
-      try {
-        await submitTrialApplication(payload);
-        trialApplicationSubmitted = true;
-        showTrialResult("success");
-      } catch (error) {
-        showTrialResult("error", error.message || "后台提交失败，请稍后重试。");
-      } finally {
-        if (!trialApplicationSubmitted) {
-          trialSubmitButton.disabled = false;
-        }
-      }
-    });
-  </script>
+  <!-- RC3: manual trial application modal removed; trial now starts automatically in the Windows client. -->
 </body>
 </html>
