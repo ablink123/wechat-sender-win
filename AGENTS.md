@@ -7,6 +7,7 @@
 ## 目录结构
 
 - `index.html`：产品落地页入口，内联本页所需 CSS 和少量交互脚本。
+- `developer-api.html`：开发接口独立说明页，面向不依赖桌面 Agent、直接调用本地 CLI 的第三方系统开发者。
 - `rc4-preview.html`：仅供本地临时评审，不纳入 Git 或正式发布目录；正式内容确认后合并到 `index.html`。
 - `buy-test.html`：微信支付小额验收页；仅用于受控测试，不从公开购买按钮进入。
 - `buy.html`：正式购买页保留名称；只有真实支付验收完成后才从 `buy-test.html` 整理生成。
@@ -36,3 +37,4 @@
 - V2.0.1 RC4 首页改版范围限定为 `index.html` 的 `#download` 区块及站内下载 CTA 的目标链接；不得重做首页其他区块的布局和视觉风格。
 - `#download` 必须延续现有双栏卡片和深蓝/红/白视觉体系，只提供一个 RC4 安装器下载；Skill ZIP 已随安装器安装，不再作为网站第二下载项。
 - `#download` 区域只在左侧主卡片保留一个“主下载”按钮；右侧 Skill 说明卡不得重复提供安装器下载按钮。
+- 开发接口页必须以已安装的 `%LOCALAPPDATA%\WechatSender\wechat-sender.exe --payload-json` 为稳定边界；默认示例保持 `send=false`，不得公开源码、授权密钥或承诺完整 JSON 响应 API。
