@@ -116,6 +116,8 @@
     .pipeline article:last-child p { color: rgba(255,255,255,.68); }
     .quickstart { color: var(--white); background: var(--ink); border-top: 4px solid var(--red); border-bottom: 4px solid var(--red); }
     .quick-grid { display: grid; grid-template-columns: .72fr 1.28fr; gap: 42px; align-items: start; }
+    .quick-grid > * { min-width: 0; }
+    .quick-copy { overflow-wrap: anywhere; }
     .quick-copy p { color: rgba(255,255,255,.7); }
     pre { margin: 0; padding: 24px; overflow: auto; border: 2px solid rgba(255,255,255,.42); background: #020f24; color: #e9f2ff; font: 14px/1.7 Consolas, "Courier New", monospace; }
     code .accent { color: #ff6670; }
@@ -161,6 +163,25 @@
     .limit-card { padding: 22px; }
     .limit-card strong { display: block; margin-bottom: 8px; font-size: 1.1rem; }
     .limit-card p { margin: 0; color: var(--muted); font-size: .9rem; font-weight: 700; }
+    .mode-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 28px; }
+    .mode-card { padding: 24px; border: 3px solid var(--ink); background: var(--white); }
+    .mode-card.recommended { color: var(--white); background: var(--ink); box-shadow: 9px 9px 0 var(--red); }
+    .mode-card b { color: var(--red); font: 900 .76rem Consolas, monospace; }
+    .mode-card h3 { margin: 20px 0 8px; font-size: 1.25rem; }
+    .mode-card p { margin: 0; color: var(--muted); font-size: .9rem; font-weight: 700; }
+    .mode-card.recommended p { color: rgba(255,255,255,.7); }
+    .contacts-demo { display: grid; grid-template-columns: .45fr 1.55fr; gap: 22px; }
+    .file-sample, .command-sample { min-width: 0; border: 3px solid var(--ink); background: var(--white); }
+    .sample-head { padding: 12px 16px; color: var(--white); background: var(--red); font: 900 .78rem Consolas, monospace; }
+    .file-sample pre, .command-sample pre { border: 0; }
+    .send-warning { padding: 14px 16px; color: var(--white); background: var(--red); font-weight: 900; }
+    .recommendation { margin-top: 28px; border: 3px solid var(--ink); background: var(--white); }
+    .recommendation-row { display: grid; grid-template-columns: .55fr 1fr; border-bottom: 1px solid var(--line-strong); }
+    .recommendation-row:last-child { border-bottom: 0; }
+    .recommendation-row strong, .recommendation-row span { padding: 13px 16px; }
+    .recommendation-row strong { color: var(--white); background: var(--ink); }
+    .recommendation-row span { color: var(--muted); font-weight: 800; }
+    .developer-choice { margin-top: 22px; padding: 20px; border-left: 8px solid var(--red); background: var(--ink); color: var(--white); font-weight: 800; }
     .cta-band { padding: 46px 0; color: var(--white); background: var(--red); }
     .cta-grid { display: grid; grid-template-columns: 1fr auto; gap: 30px; align-items: center; }
     .cta-grid h2 { font-size: clamp(2.2rem, 4vw, 4rem); }
@@ -179,6 +200,7 @@
       .protocol-grid, .errors { grid-template-columns: 1fr; }
       .example-grid { grid-template-columns: 1fr; }
       .limits { grid-template-columns: 1fr; }
+      .mode-grid, .contacts-demo { grid-template-columns: 1fr; }
     }
     @media (max-width: 600px) {
       .shell { width: min(100% - 28px, var(--max)); }
@@ -193,6 +215,7 @@
       .safety-flow div { min-height: 0; border-right: 0; }
       .field-table { display: block; overflow-x: auto; }
       .cta-grid { grid-template-columns: 1fr; }
+      .recommendation-row { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -201,7 +224,7 @@
     <div class="shell topbar-inner">
       <a class="brand" href="./index.html"><span class="brand-mark">微</span><span>微信本地通知助手</span></a>
       <nav class="nav" aria-label="开发接口导航">
-        <a href="./index.html">首页</a><a href="#workflow">接入流程</a><a href="#quickstart">快速开始</a><a href="#examples">代码示例</a><a href="#errors">错误处理</a>
+        <a href="./index.html">首页</a><a href="#workflow">接入流程</a><a href="#quickstart">快速开始</a><a href="#modes">调用方式</a><a href="#examples">代码示例</a><a href="#errors">错误处理</a>
       </nav>
       <a class="button button-red" href="./index.html#download">下载客户端</a>
     </div>
@@ -306,9 +329,40 @@ $LASTEXITCODE</code></pre>
         </div>
       </div>
     </section>
+    <section id="modes">
+      <div class="shell">
+        <div class="section-head"><div class="section-kicker">06 / CHOOSE AN ENTRY</div><div><h2>不是所有调用都必须手工处理 JSON。</h2><p>普通用户可以用联系人名单文件完成简单批量调用；业务系统开发者仍应优先使用 Payload JSON。</p></div></div>
+        <div class="mode-grid">
+          <article class="mode-card"><b>MANUAL BATCH</b><h3>联系人文件 + CLI</h3><p>适合人工维护名单、固定正文、临时批量预览或发送，不需要编写 JSON。</p></article>
+          <article class="mode-card recommended"><b>PROGRAM INTEGRATION</b><h3>Payload JSON</h3><p>适合 Python、C#、Node.js 等程序，支持 operation_id、附件、重试控制和任务留痕。</p></article>
+          <article class="mode-card"><b>SINGLE CONTACT</b><h3>直接 CLI 参数</h3><p>适合一次简单调用。注意：不带 --send 时会写入微信草稿，不是纯预览。</p></article>
+        </div>
+        <div class="contacts-demo">
+          <div class="file-sample"><div class="sample-head">D:\tmp\contacts.txt</div><pre><code>ablink
+888</code></pre><div class="note" style="margin:0;color:var(--ink);background:var(--white)">UTF-8，一行一个联系人；空行和 # 开头的行会忽略。</div></div>
+          <div class="command-sample"><div class="sample-head">POWERSHELL / NO JSON</div><pre><code><span class="accent"># 预览：不操作微信</span>
+&amp; "$env:LOCALAPPDATA\WechatSender\wechat-sender.exe" `
+  --contacts-file "D:\tmp\contacts.txt" `
+  "明天上午8点开会。"
+
+<span class="accent"># 仅在用户明确确认后真实发送</span>
+&amp; "$env:LOCALAPPDATA\WechatSender\wechat-sender.exe" `
+  --contacts-file "D:\tmp\contacts.txt" `
+  "明天上午8点开会。" `
+  --send</code></pre><div class="send-warning">带 --send 会真实操作桌面微信；不得放入安装流程、后台健康检查或无人确认的自动任务。</div></div>
+        </div>
+        <div class="recommendation" aria-label="调用方式推荐">
+          <div class="recommendation-row"><strong>普通用户手工调用</strong><span>使用 --contacts-file 更简单。</span></div>
+          <div class="recommendation-row"><strong>Python / C# / Node.js</strong><span>使用 --payload-json，让程序管理文件和执行结果。</span></div>
+          <div class="recommendation-row"><strong>附件、重试或任务记录</strong><span>使用 JSON，显式保存 operation_id、附件路径和业务日志。</span></div>
+          <div class="recommendation-row"><strong>单次简单发送</strong><span>可以直接使用 CLI 位置参数；不带 --send 时只写入草稿。</span></div>
+        </div>
+        <div class="developer-choice">对开发者最合适的做法：界面只让用户填写联系人、消息和附件；程序自动补齐 send、operation_id 等字段并生成 JSON。不要让普通用户手工创建或复制 UUID。</div>
+      </div>
+    </section>
     <section id="examples">
       <div class="shell">
-        <div class="section-head"><div class="section-kicker">06 / CODE EXAMPLES</div><div><h2>用标准子进程接口调用，不需要产品源码。</h2><p>调用方只依赖安装路径、Payload 协议、退出码和 error_code。不要导入内部 Python 模块，也不要直接访问授权中心。</p></div></div>
+        <div class="section-head"><div class="section-kicker">07 / CODE EXAMPLES</div><div><h2>用标准子进程接口调用，不需要产品源码。</h2><p>调用方只依赖安装路径、Payload 协议、退出码和 error_code。不要导入内部 Python 模块，也不要直接访问授权中心。</p></div></div>
         <div class="example-grid">
           <article class="code-card">
             <div class="code-head"><span class="code-label">PYTHON / PREVIEW</span><button class="copy-button" type="button" data-copy-target="python-code">复制代码</button></div>
@@ -369,7 +423,7 @@ console.log(result.status, result.stdout);</code></pre>
     </section>
     <section id="errors">
       <div class="shell">
-        <div class="section-head"><div class="section-kicker">07 / PROCESS RESULT</div><div><h2>依赖退出码，不要匹配整段中文输出。</h2><p>当前接口是 CLI 文本协议，不是完整 JSON 响应 API。授权拒绝时可提取标准输出中的 error_code。</p></div></div>
+        <div class="section-head"><div class="section-kicker">08 / PROCESS RESULT</div><div><h2>依赖退出码，不要匹配整段中文输出。</h2><p>当前接口是 CLI 文本协议，不是完整 JSON 响应 API。授权拒绝时可提取标准输出中的 error_code。</p></div></div>
         <div class="errors">
           <div class="exit-list">
             <div class="exit-row"><div class="exit-code">0</div><div class="exit-copy"><strong>命令成功</strong><span>结合 Payload 的 send 判断是预览成功还是真实发送流程完成。</span></div></div>
@@ -382,7 +436,7 @@ console.log(result.status, result.stdout);</code></pre>
     </section>
     <section id="limits">
       <div class="shell">
-        <div class="section-head"><div class="section-kicker">08 / RUNTIME LIMITS</div><div><h2>它是桌面接口，不是服务器 API。</h2><p>微信自动化依赖当前用户桌面、前台窗口和已经登录的个人微信客户端。</p></div></div>
+        <div class="section-head"><div class="section-kicker">09 / RUNTIME LIMITS</div><div><h2>它是桌面接口，不是服务器 API。</h2><p>微信自动化依赖当前用户桌面、前台窗口和已经登录的个人微信客户端。</p></div></div>
         <div class="limits">
           <article class="limit-card"><strong>必须运行在交互式桌面</strong><p>不适合 Windows Service、Session 0、无人登录服务器或纯后台容器。</p></article>
           <article class="limit-card"><strong>所有任务必须串行</strong><p>同一时间只启动一个 wechat-sender.exe，避免多个程序争夺微信窗口和剪贴板。</p></article>

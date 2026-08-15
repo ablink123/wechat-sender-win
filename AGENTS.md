@@ -38,3 +38,4 @@
 - `#download` 必须延续现有双栏卡片和深蓝/红/白视觉体系，只提供一个 RC4 安装器下载；Skill ZIP 已随安装器安装，不再作为网站第二下载项。
 - `#download` 区域只在左侧主卡片保留一个“主下载”按钮；右侧 Skill 说明卡不得重复提供安装器下载按钮。
 - 开发接口页必须以已安装的 `%LOCALAPPDATA%\WechatSender\wechat-sender.exe --payload-json` 为稳定边界；默认示例保持 `send=false`，不得公开源码、授权密钥或承诺完整 JSON 响应 API。
+- 开发接口页可提供 `--contacts-file` 作为普通用户手工批量调用方式，但必须说明：程序化接入、附件、重试控制和任务记录仍推荐 `--payload-json`；直接位置参数不带 `--send` 会写入微信草稿，不等同于 Payload 或联系人文件的纯预览。
