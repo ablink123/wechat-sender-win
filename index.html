@@ -446,7 +446,7 @@
     }
 
     .download-band::before {
-      content: "RC3 / AUTO TRIAL / WINDOWS CLIENT / WORKBUDDY SKILL /";
+      content: "RC4 / AUTO TRIAL / WINDOWS CLIENT / DESKTOP AGENT SKILL /";
       position: absolute;
       top: 28px;
       right: -42px;
@@ -615,6 +615,35 @@
     .download-card .button {
       align-self: flex-start;
       margin-top: auto;
+    }
+
+    .skill-choice-list {
+      display: grid;
+      gap: 8px;
+      margin: 18px 0 20px;
+    }
+
+    .skill-choice {
+      padding: 11px 13px;
+      border: 1px solid rgba(255, 255, 255, 0.46);
+      background: rgba(255, 255, 255, 0.06);
+      font-weight: 800;
+    }
+
+    .skill-choice b {
+      display: block;
+      margin-bottom: 3px;
+      color: #ff7a82;
+      font-size: 0.76rem;
+      letter-spacing: 0.06em;
+    }
+
+    .skill-choice-or {
+      color: #ff7a82;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.78rem;
+      font-weight: 900;
+      text-align: center;
     }
 
     .hash {
@@ -1039,7 +1068,7 @@
             <h1 id="hero-title">给桌面 Agent<br>装上微信<br>发送能力</h1>
             <p class="lead">面向 Windows 11 个人微信桌面版的通用发送 Skill，可接入 WorkBuddy、阿里悟空、Trae、Claude Code、Codex 等桌面 Agent，让通知、报告、客户跟进和文件分发等自动化流程，最终通过微信触达联系人与群聊。</p>
             <div class="hero-cta-stack">
-              <a class="button button-red" href="#download">下载安装，免费体验 7 天</a>
+              <a class="button button-red" href="assets/downloads/微信本地通知助手-v2.0.1-rc4-setup.exe" download>下载安装，免费体验 7 天</a>
               <div class="hero-subnote">无需申请 · 首次联网自动开启 · 每天最多发送给 20 个人或群</div>
               <a class="hero-text-link" href="#purchase">查看套餐与授权 ›</a>
             </div>
@@ -1167,46 +1196,50 @@
         </div>
 
         <div class="release-status" aria-label="发布版本信息">
-          <div><span>Version</span><strong>0.1.0-rc3</strong></div>
+          <div><span>Version</span><strong>2.0.1-rc4</strong></div>
           <div><span>Platform</span><strong>Windows 11 / 64-bit</strong></div>
           <div><span>Trial</span><strong>首次联网自动开启 7 天</strong></div>
         </div>
 
         <div class="download-requirement">
-          <strong>使用 WorkBuddy 调用微信发送，下面两个文件都需要下载。</strong>
-          <span>先安装客户端，再将 Skill ZIP 直接导入 WorkBuddy。</span>
+          <strong>现在只需下载一个安装器。</strong>
+          <span>客户端、wechat-sender skill 和 Developer Kit 已合并打包。</span>
         </div>
 
         <div class="download-grid">
           <article class="download-card download-card-primary">
             <span class="download-step-number" aria-hidden="true">1</span>
-            <span class="file-tag">第 1 步 · 先下载</span>
-            <h3>安装 Windows 客户端</h3>
-            <p>推荐使用安装器。首次联网打开会自动开启 7 天体验；购买套餐后，在客户端输入授权码激活付费期限。</p>
-            <div class="file-meta"><span>EXE</span><span>10.4 MB</span><span>RC3</span></div>
-            <a class="button button-red" href="assets/downloads/微信本地通知助手-v0.1.0-rc3-setup.exe" download>主下载 · Windows 安装器 ↓</a>
-            <div class="hash"><strong>安装器 SHA256</strong><br>1DC588717D4E7F1C017986469BA644B7E23AC1655D6BC96FA390057830DB3C53</div>
+            <span class="file-tag">唯一下载 · Windows</span>
+            <h3>安装客户端、Skill 与 Developer Kit</h3>
+            <p>运行一个安装器即可完成全部文件安装。首次联网自动开启 7 天体验，不需要先输入激活码。</p>
+            <div class="file-meta"><span>EXE</span><span>9.93 MB</span><span>RC4</span></div>
+            <a class="button button-red" href="assets/downloads/微信本地通知助手-v2.0.1-rc4-setup.exe" download>主下载 · RC4 安装器 ↓</a>
+            <div class="hash"><strong>安装器 SHA256</strong><br>CEA565186CB1100A7DBBCFB1357CC7C4CC49688A8FC27B08AC075854B1A34039</div>
           </article>
 
           <article class="download-card download-card-secondary">
-            <span class="download-step-number" aria-hidden="true">2</span>
-            <span class="file-tag">第 2 步 · WorkBuddy</span>
-            <h3>导入 WorkBuddy Skill</h3>
-            <p>将 ZIP 原样导入 WorkBuddy，不要先解压。包内已配置客户端默认安装路径，常规用户无需手工复制或编辑配置文件。</p>
-            <div class="file-meta"><span>SKILL ZIP</span><span>6.0 KB</span><span>RC3</span></div>
-            <a class="button" href="assets/downloads/wechat-sender-workbuddy-skill-v0.1.0-rc3.zip" download>Agent 用户下载 · WorkBuddy Skill ↓</a>
-            <div class="hash"><strong>SHA256</strong><br>1113EDC8EEB20A20F447BDA9D4C78E24D6002031CACEB74E715B95230527921E</div>
+            <span class="download-step-number" aria-hidden="true">✓</span>
+            <span class="file-tag">安装器已包含</span>
+            <h3>安装后，二选一导入 Skill</h3>
+            <p>Skill ZIP 已写入本机，无需在网站再次下载。安装完成后的“开始使用”页面会提供两种并列方式：</p>
+            <div class="skill-choice-list" aria-label="Skill 导入方式二选一">
+              <div class="skill-choice"><b>方式 A / MANUAL</b>复制 ZIP 目录，在桌面 Agent 中手工选择 ZIP。</div>
+              <div class="skill-choice-or">或 / OR</div>
+              <div class="skill-choice"><b>方式 B / AGENT</b>复制安装提示词，让桌面 Agent 协助处理。</div>
+            </div>
+            <a class="button" href="assets/downloads/微信本地通知助手-v2.0.1-rc4-setup.exe" download>下载包含 Skill 的 RC4 安装器 ↓</a>
+            <div class="hash"><strong>安装后 ZIP 目录</strong><br>%LOCALAPPDATA%\WechatSender\AgentSkills</div>
           </article>
         </div>
 
         <div class="release-notes">
           <div class="release-note">
             <strong>⚠ Windows SmartScreen 提示</strong>
-            <p>当前 RC3 尚未数字签名，Windows 可能显示“未知发布者”。请先核对本页 SHA256；确认来源后可选择“更多信息”→“仍要运行”。</p>
+            <p>当前 RC4 尚未数字签名，Windows 可能显示“未知发布者”。请先核对本页 SHA256；确认来源后可选择“更多信息”→“仍要运行”。</p>
           </div>
           <div class="release-note">
-            <strong>激活界面 ≠ 完整发送 GUI</strong>
-            <p>双击客户端后主要是试用/授权状态界面，不是完整发送 GUI。如需通过自然语言发送，还需导入上方 Agent Skill；授权码不会打包在网页、客户端或 Skill 内。</p>
+            <strong>首次试用无需激活码</strong>
+            <p>安装后自动打开“开始使用”页面，引导导入 Skill 和首次测试。7 天试用期间无需输入激活码；授权码不会打包在网页、客户端或 Skill 内。</p>
           </div>
           <div class="release-note">
             <strong>本地执行与隐私边界</strong>
@@ -1218,7 +1251,7 @@
           <div class="install-step"><b>01 / DOWNLOAD</b><strong>下载安装器</strong></div>
           <div class="install-step"><b>02 / INSTALL</b><strong>安装并启动</strong></div>
           <div class="install-step"><b>03 / TRIAL</b><strong>联网自动开启 7 天体验</strong></div>
-          <div class="install-step"><b>04 / IMPORT</b><strong>Agent 用户导入 Skill</strong></div>
+          <div class="install-step"><b>04 / IMPORT</b><strong>二选一导入 Skill</strong></div>
           <div class="install-step"><b>05 / PREVIEW</b><strong>先预览名单和文件</strong></div>
           <div class="install-step"><b>06 / SEND</b><strong>确认后执行发送</strong></div>
         </div>
@@ -1242,7 +1275,7 @@
                   <li>首次联网后连续 7 天</li>
                 </ul>
                 <div class="intent">无需申请体验码；同一 Windows 设备仅可试用一次。</div>
-                <a class="button" href="#download">下载并开始体验</a>
+                <a class="button" href="assets/downloads/微信本地通知助手-v2.0.1-rc4-setup.exe" download>下载并开始体验</a>
               </article>
               <article class="price-card">
                 <span class="price-label">Personal 90D</span>
