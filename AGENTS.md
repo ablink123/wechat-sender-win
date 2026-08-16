@@ -34,8 +34,8 @@
 - 新版大改先在独立预览页完成桌面端和移动端验收；用户确认后再把已验证内容合并到 `index.html`。
 - RC4 预览页只引用 `assets/downloads/微信本地通知助手-v2.0.1-rc4-setup.exe` 这一份安装器；不得恢复客户端与 Skill 分开下载的旧流程。
 - 产品页需要区分“用户安装方式”和“网站发布方式”：用户只下载安装器；网站发布采用 GitHub `main` 提交后由 Netlify 自动部署，不使用 Netlify CLI 直接覆盖生产站点。
-- V2.0.1 RC4 首页改版范围限定为 `index.html` 的 `#download` 区块及站内下载 CTA 的目标链接；不得重做首页其他区块的布局和视觉风格。
-- `#download` 必须延续现有双栏卡片和深蓝/红/白视觉体系，只提供一个 RC4 安装器下载；Skill ZIP 已随安装器安装，不再作为网站第二下载项。
+- V2.1.0 RC1 首页更新范围限定为 `index.html` 的 `#download` 内容及站内下载 CTA 的目标链接；不得重做首页其他区块的布局和视觉风格。
+- `#download` 必须延续现有双栏卡片和深蓝/红/白视觉体系，只提供一个 V2.1.0 RC1 安装器下载；Skill ZIP 与 Developer Kit 已随安装器安装，不再作为网站第二下载项。
 - `#download` 区域只在左侧主卡片保留一个“主下载”按钮；右侧 Skill 说明卡不得重复提供安装器下载按钮。
-- 开发接口页必须以已安装的 `%LOCALAPPDATA%\WechatSender\wechat-sender.exe --payload-json` 为稳定边界；默认示例保持 `send=false`，不得公开源码、授权密钥或承诺完整 JSON 响应 API。
+- 开发接口页必须以已安装的 `%LOCALAPPDATA%\WechatSender\wechat-sender.exe` 为稳定边界；V2.1.0 RC1 对外公开 Payload V1、`--validate-payload`、`--output-json` 和 Result V1，标准输出只用于诊断。默认示例保持 `send=false`，不得公开源码、授权密钥、授权中心数据库或服务端内部接口。
 - 开发接口页可提供 `--contacts-file` 作为普通用户手工批量调用方式，但必须说明：程序化接入、附件、重试控制和任务记录仍推荐 `--payload-json`；直接位置参数不带 `--send` 会写入微信草稿，不等同于 Payload 或联系人文件的纯预览。

@@ -224,7 +224,7 @@
     <div class="shell topbar-inner">
       <a class="brand" href="./index.html"><span class="brand-mark">微</span><span>微信本地通知助手</span></a>
       <nav class="nav" aria-label="开发接口导航">
-        <a href="./index.html">首页</a><a href="#workflow">接入流程</a><a href="#quickstart">快速开始</a><a href="#modes">调用方式</a><a href="#examples">代码示例</a><a href="#errors">错误处理</a>
+        <a href="./index.html">首页</a><a href="#workflow">接入流程</a><a href="#quickstart">快速开始</a><a href="#modes">调用方式</a><a href="#examples">代码示例</a><a href="#errors">结果与错误</a>
       </nav>
       <a class="button button-red" href="./index.html#download">下载客户端</a>
     </div>
@@ -236,12 +236,12 @@
           <span class="eyebrow">LOCAL CLI DEVELOPER INTERFACE</span>
           <h1>让已有系统，<br><span>直接调用个人微信。</span></h1>
           <p class="lead">不依赖 WorkBuddy、Codex 或其他桌面 Agent。ERP、CRM、监控告警、报表程序和内部工具，只需生成 UTF-8 Payload JSON，再调用用户电脑上已安装的微信本地通知助手。</p>
-          <div class="hero-actions"><a class="button button-red" href="#quickstart">查看最小调用示例 ↓</a><a class="button" href="./index.html#download">下载 V2.0.1 RC4</a></div>
+          <div class="hero-actions"><a class="button button-red" href="#quickstart">查看最小调用示例 ↓</a><a class="button" href="./index.html#download">下载 V2.1.0 RC1</a></div>
         </div>
         <aside class="fact-panel" aria-label="接口摘要">
           <div><small>INTERFACE</small><strong>本地命令行进程调用</strong></div>
           <div><small>STABLE ENTRY</small><strong>wechat-sender.exe --payload-json</strong></div>
-          <div><small>AGENT REQUIRED</small><strong>不需要 Skill，不依赖桌面 Agent</strong></div>
+          <div><small>MACHINE RESULT</small><strong>--output-json / Result V1</strong></div>
           <div><small>SAFE DEFAULT</small><strong>send=false，只预览不操作微信</strong></div>
         </aside>
       </div>
@@ -252,29 +252,47 @@
         <div class="pipeline">
           <article><b>01 / SOURCE</b><h3>已有业务系统</h3><p>ERP、CRM、订单系统、监控告警、日报程序或内部审批工具。</p></article>
           <article><b>02 / PAYLOAD</b><h3>生成 UTF-8 JSON</h3><p>写入联系人、正文、附件路径、send 和 operation_id。</p></article>
-          <article><b>03 / LOCAL CLI</b><h3>启动本地 EXE</h3><p>使用子进程调用 --payload-json，并读取退出码和标准输出。</p></article>
+          <article><b>03 / LOCAL CLI</b><h3>启动本地 EXE</h3><p>使用子进程校验或执行 Payload，并读取退出码和 Result JSON。</p></article>
           <article><b>04 / WECHAT</b><h3>个人微信客户端</h3><p>用户确认后，由当前已登录的 Windows 微信完成触达。</p></article>
         </div>
       </div>
     </section>
     <section class="quickstart" id="quickstart">
       <div class="shell quick-grid">
-        <div class="quick-copy"><span class="eyebrow">02 / MINIMUM CALL</span><h2>三步完成首次预览。</h2><p>先安装客户端，再由系统生成 Payload 文件，最后启动本地进程。以下命令不会操作微信。</p><div class="note">标准安装路径：<br>%LOCALAPPDATA%\WechatSender\wechat-sender.exe</div></div>
+        <div class="quick-copy"><span class="eyebrow">02 / MINIMUM CALL</span><h2>四步完成校验与预览。</h2><p>先生成 Payload，再校验、预览并读取 Result V1。以下命令全部保持 send=false，不会操作微信。</p><div class="note">标准安装路径：<br>%LOCALAPPDATA%\WechatSender\wechat-sender.exe</div></div>
         <pre><code><span class="accent"># 1. 业务系统生成 request-001.json</span>
 {
+  "schema_version": "1.0",
   "contacts": ["文件传输"],
   "message": "订单系统：订单 A1024 已完成。",
   "files_dir": null,
+  "recursive": false,
+  "max_files": 10,
   "send": false,
+  "delay_seconds": 5,
+  "batch_delay_seconds": 5,
   "operation_id": "order-A1024-preview"
 }
 
-<span class="accent"># 2. PowerShell 启动预览</span>
-&amp; "$env:LOCALAPPDATA\WechatSender\wechat-sender.exe" `
-  --payload-json "D:\YourApp\requests\request-001.json"
+<span class="accent"># 2. 校验 Payload；不操作微信或授权额度</span>
+$exe = "$env:LOCALAPPDATA\WechatSender\wechat-sender.exe"
+$payload = "D:\YourApp\requests\request-001.json"
+$validateResult = "D:\YourApp\results\request-001.validate.json"
+$previewResult = "D:\YourApp\results\request-001.preview.json"
+New-Item -ItemType Directory -Force -Path "D:\YourApp\results" | Out-Null
+&amp; $exe --validate-payload $payload --output-json $validateResult
+if ($LASTEXITCODE -ne 0) { throw "Payload validation failed" }
 
-<span class="accent"># 3. 检查进程退出码</span>
-$LASTEXITCODE</code></pre>
+<span class="accent"># 3. 执行 send=false 预览</span>
+&amp; $exe --payload-json $payload --output-json $previewResult
+$exitCode = $LASTEXITCODE
+
+<span class="accent"># 4. 读取 Result V1，不匹配整段中文输出</span>
+$result = Get-Content -LiteralPath $previewResult -Raw -Encoding UTF8 |
+  ConvertFrom-Json
+$result.execution_stage
+$result.deliveries
+$exitCode</code></pre>
       </div>
     </section>
     <section id="use-cases">
@@ -291,9 +309,9 @@ $LASTEXITCODE</code></pre>
       <div class="shell">
         <div class="section-head"><div class="section-kicker">04 / REQUIRED SAFETY FLOW</div><div><h2>真实发送必须经过用户确认。</h2><p>来自数据库、网页、邮件或模型的内容不能直接进入 send=true。调用方必须保留一个可见的确认环节。</p></div></div>
         <div class="safety-flow">
-          <div><small>01 / BUILD</small><strong>生成 send=false Payload</strong></div>
-          <div><small>02 / PREVIEW</small><strong>执行预览，不操作微信</strong></div>
-          <div><small>03 / DISPLAY</small><strong>展示联系人、正文和附件</strong></div>
+          <div><small>01 / BUILD</small><strong>生成 V1 send=false Payload</strong></div>
+          <div><small>02 / VALIDATE</small><strong>无副作用校验 Payload</strong></div>
+          <div><small>03 / PREVIEW</small><strong>读取 Result 并展示内容</strong></div>
           <div><small>04 / CONFIRM</small><strong>用户明确确认真实发送</strong></div>
           <div><small>05 / SEND</small><strong>同一业务数据改为 send=true</strong></div>
         </div>
@@ -301,9 +319,10 @@ $LASTEXITCODE</code></pre>
     </section>
     <section class="protocol" id="payload">
       <div class="shell">
-        <div class="section-head"><div class="section-kicker">05 / PAYLOAD CONTRACT</div><div><h2>一个 JSON 文件描述一次业务请求。</h2><p>文件必须使用 UTF-8 编码；message 与 files_dir 至少提供一个。单个附件必须传完整文件路径。</p></div></div>
+        <div class="section-head"><div class="section-kicker">05 / PAYLOAD V1 CONTRACT</div><div><h2>一个版本化 JSON 文件描述一次业务请求。</h2><p>新集成必须显式使用 schema_version="1.0"；文件使用 UTF-8 编码，message 与 files_dir 至少提供一个。</p></div></div>
         <div class="protocol-grid">
           <div class="payload-sample"><pre><code>{
+  "schema_version": "1.0",
   "contacts": ["文件传输"],
   "message": "日报已生成，请查收。",
   "files_dir": "D:\\Reports\\daily.pdf",
@@ -313,20 +332,23 @@ $LASTEXITCODE</code></pre>
   "delay_seconds": 5,
   "batch_delay_seconds": 5,
   "operation_id": "report-20260815-001"
-}</code></pre><div class="note" style="color:var(--ink);background:var(--white)">files_dir 既可以是单个文件，也可以是目录；无附件时填写 null。</div></div>
+}</code></pre><div class="note" style="color:var(--ink);background:var(--white)">files_dir 既可以是单个文件，也可以是目录；无附件时填写 null。附件超过 max_files 时直接失败，不会静默截断。</div></div>
           <table class="field-table">
             <thead><tr><th>字段</th><th>要求</th><th>用途</th></tr></thead>
             <tbody>
+              <tr><td>schema_version</td><td>新集成必填，固定 1.0</td><td>启用 Payload V1 严格校验；无此字段的合法 RC4 Payload 进入兼容模式。</td></tr>
               <tr><td>contacts</td><td>必填，string[]</td><td>联系人或群名称；客户端每批最多处理 9 个。</td></tr>
               <tr><td>message</td><td>条件必填</td><td>消息正文；与 files_dir 至少存在一个。</td></tr>
               <tr><td>files_dir</td><td>string 或 null</td><td>单个文件完整路径，或目录路径。</td></tr>
+              <tr><td>max_files</td><td>可选，默认 10；范围 1–10</td><td>单次附件安全上限；超出范围或实际附件超限时在发送动作前失败。</td></tr>
               <tr><td>send</td><td>默认 false</td><td>false 仅预览；true 才会操作微信。</td></tr>
-              <tr><td>operation_id</td><td>真实发送强烈要求</td><td>同一业务请求技术性重试时复用，避免重复预留额度。</td></tr>
+              <tr><td>operation_id</td><td>真实发送强烈要求</td><td>用于授权额度预留幂等，不代表微信消息只投递一次。</td></tr>
               <tr><td>delay_seconds</td><td>默认 5</td><td>同一批相邻收件人的等待秒数。</td></tr>
               <tr><td>batch_delay_seconds</td><td>默认 5</td><td>相邻批次之间的等待秒数。</td></tr>
             </tbody>
           </table>
         </div>
+        <div class="developer-choice">兼容模式会过滤 contacts 中的 null 并产生 warning；过滤后为空则返回 PAYLOAD_INVALID。V1 严格模式遇到 null 直接返回 PAYLOAD_INVALID，两种模式都不会产生联系人“None”。</div>
       </div>
     </section>
     <section id="modes">
@@ -362,7 +384,7 @@ $LASTEXITCODE</code></pre>
     </section>
     <section id="examples">
       <div class="shell">
-        <div class="section-head"><div class="section-kicker">07 / CODE EXAMPLES</div><div><h2>用标准子进程接口调用，不需要产品源码。</h2><p>调用方只依赖安装路径、Payload 协议、退出码和 error_code。不要导入内部 Python 模块，也不要直接访问授权中心。</p></div></div>
+        <div class="section-head"><div class="section-kicker">07 / CODE EXAMPLES</div><div><h2>用标准子进程接口调用，不需要产品源码。</h2><p>调用方只依赖安装路径、Payload/Result V1、退出码和稳定错误码。不要导入内部 Python 模块，也不要直接访问授权中心。</p></div></div>
         <div class="example-grid">
           <article class="code-card">
             <div class="code-head"><span class="code-label">PYTHON / PREVIEW</span><button class="copy-button" type="button" data-copy-target="python-code">复制代码</button></div>
@@ -371,66 +393,129 @@ from pathlib import Path
 
 exe = Path(os.environ["LOCALAPPDATA"]) / "WechatSender" / "wechat-sender.exe"
 request_dir = Path(os.environ["LOCALAPPDATA"]) / "YourApp" / "sender-requests"
+result_dir = Path(os.environ["LOCALAPPDATA"]) / "YourApp" / "sender-results"
 request_dir.mkdir(parents=True, exist_ok=True)
+result_dir.mkdir(parents=True, exist_ok=True)
 
 operation_id = str(uuid.uuid4())
 payload = {
+    "schema_version": "1.0",
     "contacts": ["文件传输"],
     "message": "CRM：客户跟进记录已更新。",
     "files_dir": None,
+    "recursive": False,
+    "max_files": 10,
     "send": False,
+    "delay_seconds": 5,
+    "batch_delay_seconds": 5,
     "operation_id": operation_id,
 }
 payload_path = request_dir / f"{operation_id}.json"
+result_path = result_dir / f"{operation_id}.preview.json"
 payload_path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
 
-result = subprocess.run(
-    [str(exe), "--payload-json", str(payload_path)],
-    shell=False, capture_output=True, timeout=300
+process = subprocess.run(
+    [str(exe), "--payload-json", str(payload_path),
+     "--output-json", str(result_path)],
+    shell=False, timeout=300, check=False
 )
-print(result.returncode)
-print(result.stdout.decode("utf-8", errors="replace"))</code></pre>
+result = json.loads(result_path.read_text(encoding="utf-8"))
+print(process.returncode, result["execution_stage"])
+print(result["deliveries"])</code></pre>
           </article>
           <article class="code-card">
             <div class="code-head"><span class="code-label">NODE.JS / PREVIEW</span><button class="copy-button" type="button" data-copy-target="node-code">复制代码</button></div>
-            <pre id="node-code"><code>import { mkdirSync, writeFileSync } from "node:fs";
+            <pre id="node-code"><code>import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import { join } from "node:path";
 
 const exe = join(process.env.LOCALAPPDATA, "WechatSender", "wechat-sender.exe");
 const requestDir = join(process.env.LOCALAPPDATA, "YourApp", "sender-requests");
+const resultDir = join(process.env.LOCALAPPDATA, "YourApp", "sender-results");
 mkdirSync(requestDir, { recursive: true });
+mkdirSync(resultDir, { recursive: true });
 
 const operationId = randomUUID();
 const payloadPath = join(requestDir, `${operationId}.json`);
+const resultPath = join(resultDir, `${operationId}.preview.json`);
 const payload = {
+  schema_version: "1.0",
   contacts: ["文件传输"],
   message: "监控系统：API 延迟超过阈值。",
   files_dir: null,
+  recursive: false,
+  max_files: 10,
   send: false,
+  delay_seconds: 5,
+  batch_delay_seconds: 5,
   operation_id: operationId
 };
 writeFileSync(payloadPath, JSON.stringify(payload, null, 2), "utf8");
 
-const result = spawnSync(exe, ["--payload-json", payloadPath], {
-  shell: false, windowsHide: true, encoding: "utf8", timeout: 300000
+const process = spawnSync(exe, [
+  "--payload-json", payloadPath, "--output-json", resultPath
+], {
+  shell: false, windowsHide: true, timeout: 300000
 });
-console.log(result.status, result.stdout);</code></pre>
+const result = JSON.parse(readFileSync(resultPath, "utf8"));
+console.log(process.status, result.execution_stage);
+console.log(result.deliveries);</code></pre>
           </article>
         </div>
       </div>
     </section>
     <section id="errors">
       <div class="shell">
-        <div class="section-head"><div class="section-kicker">08 / PROCESS RESULT</div><div><h2>依赖退出码，不要匹配整段中文输出。</h2><p>当前接口是 CLI 文本协议，不是完整 JSON 响应 API。授权拒绝时可提取标准输出中的 error_code。</p></div></div>
+        <div class="section-head"><div class="section-kicker">08 / RESULT V1</div><div><h2>读取版本化 Result，不要匹配整段中文输出。</h2><p>V2.1.0 RC1 通过 --output-json 原子写入顶层结果和逐联系人状态；人类可读标准输出只用于诊断。</p></div></div>
+        <div class="protocol-grid">
+          <div class="payload-sample"><pre><code>{
+  "schema_version": "1.0",
+  "app_version": "2.1.0-rc1",
+  "operation_id": "order-A1024-preview",
+  "mode": "preview",
+  "status": "succeeded",
+  "execution_stage": "preview_completed",
+  "started_at": "2026-08-16T11:15:50.352+08:00",
+  "completed_at": "2026-08-16T11:15:50.359+08:00",
+  "summary": {
+    "total": 1,
+    "pending": 0,
+    "succeeded": 1,
+    "failed": 0,
+    "uncertain": 0
+  },
+  "deliveries": [{
+    "index": 1,
+    "contact": "文件传输",
+    "status": "previewed",
+    "execution_stage": "preview_completed",
+    "error_code": null,
+    "message": "预览完成，未操作微信。",
+    "started_at": null,
+    "completed_at": null
+  }],
+  "validation_errors": [],
+  "warnings": [],
+  "error": null
+}</code></pre><div class="note" style="color:var(--ink);background:var(--white)">Delivery 的 started_at 和 completed_at 是 V1 保留字段，当前可以返回 null；调用方必须容忍 null。</div></div>
+          <table class="field-table">
+            <thead><tr><th>Delivery 状态</th><th>含义</th><th>自动重试</th></tr></thead>
+            <tbody>
+              <tr><td>previewed</td><td>预览完成，没有操作微信发送。</td><td>不适用</td></tr>
+              <tr><td>send_action_completed</td><td>本地桌面发送动作完成；不是微信服务器或收件人回执。</td><td>不得仅凭此状态重复发送</td></tr>
+              <tr><td>failed</td><td>当前联系人失败；结合 error_code 和 execution_stage 判断。</td><td>重新确认后决定</td></tr>
+              <tr><td>uncertain</td><td>发送动作已开始或可能已经发生。</td><td>禁止</td></tr>
+            </tbody>
+          </table>
+        </div>
         <div class="errors">
           <div class="exit-list">
-            <div class="exit-row"><div class="exit-code">0</div><div class="exit-copy"><strong>命令成功</strong><span>结合 Payload 的 send 判断是预览成功还是真实发送流程完成。</span></div></div>
-            <div class="exit-row"><div class="exit-code">1</div><div class="exit-copy"><strong>操作或部分失败</strong><span>停止自动重试，保留 Payload、输出和批次文件。</span></div></div>
-            <div class="exit-row"><div class="exit-code">2</div><div class="exit-copy"><strong>授权门禁拒绝</strong><span>提取 error_code，提示用户联网、激活或续费。</span></div></div>
+            <div class="exit-row"><div class="exit-code">0</div><div class="exit-copy"><strong>命令成功</strong><span>继续读取 Result 的 status、execution_stage 和 deliveries。</span></div></div>
+            <div class="exit-row"><div class="exit-code">1</div><div class="exit-copy"><strong>操作、校验或部分失败</strong><span>不能据此自动重试；必须读取 Result 分类。</span></div></div>
+            <div class="exit-row"><div class="exit-code">2</div><div class="exit-copy"><strong>授权门禁拒绝</strong><span>读取 error.code，提示用户联网、激活或续费。</span></div></div>
           </div>
-          <div class="error-box"><span class="code-label">ERROR EXAMPLE</span><h3><code>error_code=TRIAL_QUOTA_EXHAUSTED</code></h3><p>只解析 error_code，不依赖后续中英文文案完全不变。未知错误码一律按不可继续发送处理。</p><ul><li>operation_id 只保证授权额度预留幂等，不保证微信消息不会重复。</li><li>发生超时或部分失败时，不得直接重跑完整 Payload。</li><li>由用户核对实际结果，只为确认失败的联系人创建新的补发请求。</li></ul></div>
+          <div class="error-box"><span class="code-label">STABLE ERROR FIELDS</span><h3><code>error.code / error.retryable</code></h3><p>常见稳定错误码包括 PAYLOAD_INVALID、ATTACHMENT_LIMIT_EXCEEDED、WECHAT_WINDOW_NOT_FOUND、SEND_PARTIAL_FAILED、SEND_RESULT_UNCERTAIN 和 TRIAL_QUOTA_EXHAUSTED。</p><ul><li>retryable=true 只表示错误发生在不可逆发送动作前，不会跳过用户确认。</li><li>operation_id 只保证授权额度预留幂等，不保证微信消息只投递一次。</li><li>出现 uncertain、超时或部分失败时，不得直接重跑完整 Payload。</li></ul></div>
         </div>
       </div>
     </section>
@@ -442,13 +527,14 @@ console.log(result.status, result.stdout);</code></pre>
           <article class="limit-card"><strong>所有任务必须串行</strong><p>同一时间只启动一个 wechat-sender.exe，避免多个程序争夺微信窗口和剪贴板。</p></article>
           <article class="limit-card"><strong>授权由客户端负责</strong><p>第三方系统不保存授权码，也不直接调用授权中心数据库或 Supabase 接口。</p></article>
         </div>
+        <div class="developer-choice">安装后开发资源：%LOCALAPPDATA%\WechatSender\DeveloperKit 包含 PowerShell、Python、Node.js 和 C# 的 send=false 示例；%LOCALAPPDATA%\WechatSender\schemas 包含 Payload V1 与 Result V1 Schema。</div>
       </div>
     </section>
     <section class="cta-band">
-      <div class="shell cta-grid"><div><h2>先完成 send=false 预览，再接入真实业务。</h2><p>建议首次真实发送由用户确认后选择微信自带联系人“文件传输”进行验证。</p></div><a class="button" href="./index.html#download">下载安装器并开始接入</a></div>
+      <div class="shell cta-grid"><div><h2>先校验、预览并读取 Result，再接入真实业务。</h2><p>首次真实发送仍需用户明确确认；任何 uncertain 结果都不得自动重试。</p></div><a class="button" href="./index.html#download">下载安装器并开始接入</a></div>
     </section>
   </main>
-  <footer><div class="shell">微信本地通知助手 · V2.0.1 RC4 · Local CLI Developer Interface</div></footer>
+  <footer><div class="shell">微信本地通知助手 · V2.1.0 RC1 · Payload V1 / Result V1 Developer Interface</div></footer>
   <script>
     document.querySelectorAll("[data-copy-target]").forEach((button) => {
       button.addEventListener("click", async () => {
