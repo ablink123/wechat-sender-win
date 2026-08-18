@@ -226,7 +226,7 @@
       <nav class="nav" aria-label="开发接口导航">
         <a href="./index.html">首页</a><a href="#workflow">接入流程</a><a href="#quickstart">快速开始</a><a href="#modes">调用方式</a><a href="#examples">代码示例</a><a href="#errors">结果与错误</a>
       </nav>
-      <a class="button button-red" href="./index.html#download">下载客户端</a>
+      <a class="button button-red" href="assets/downloads/微信本地通知助手-v2.1.0-rc2-setup.exe" download>下载客户端</a>
     </div>
   </header>
   <main>
@@ -236,7 +236,7 @@
           <span class="eyebrow">LOCAL CLI DEVELOPER INTERFACE</span>
           <h1>让已有系统，<br><span>直接调用个人微信。</span></h1>
           <p class="lead">不依赖 WorkBuddy、Codex 或其他桌面 Agent。ERP、CRM、监控告警、报表程序和内部工具，只需生成 UTF-8 Payload JSON，再调用用户电脑上已安装的微信本地通知助手。</p>
-          <div class="hero-actions"><a class="button button-red" href="#quickstart">查看最小调用示例 ↓</a><a class="button" href="./index.html#download">下载 V2.1.0 RC1</a></div>
+          <div class="hero-actions"><a class="button button-red" href="#quickstart">查看最小调用示例 ↓</a><a class="button" href="assets/downloads/微信本地通知助手-v2.1.0-rc2-setup.exe" download>下载 V2.1.0 RC2</a></div>
         </div>
         <aside class="fact-panel" aria-label="接口摘要">
           <div><small>INTERFACE</small><strong>本地命令行进程调用</strong></div>
@@ -467,11 +467,11 @@ console.log(result.deliveries);</code></pre>
     </section>
     <section id="errors">
       <div class="shell">
-        <div class="section-head"><div class="section-kicker">08 / RESULT V1</div><div><h2>读取版本化 Result，不要匹配整段中文输出。</h2><p>V2.1.0 RC1 通过 --output-json 原子写入顶层结果和逐联系人状态；人类可读标准输出只用于诊断。</p></div></div>
+        <div class="section-head"><div class="section-kicker">08 / RESULT V1</div><div><h2>读取版本化 Result，不要匹配整段中文输出。</h2><p>V2.1.0 RC2 通过 --output-json 原子写入顶层结果和逐联系人状态；人类可读标准输出只用于诊断。</p></div></div>
         <div class="protocol-grid">
           <div class="payload-sample"><pre><code>{
   "schema_version": "1.0",
-  "app_version": "2.1.0-rc1",
+  "app_version": "2.1.0-rc2",
   "operation_id": "order-A1024-preview",
   "mode": "preview",
   "status": "succeeded",
@@ -531,10 +531,10 @@ console.log(result.deliveries);</code></pre>
       </div>
     </section>
     <section class="cta-band">
-      <div class="shell cta-grid"><div><h2>先校验、预览并读取 Result，再接入真实业务。</h2><p>首次真实发送仍需用户明确确认；任何 uncertain 结果都不得自动重试。</p></div><a class="button" href="./index.html#download">下载安装器并开始接入</a></div>
+      <div class="shell cta-grid"><div><h2>先校验、预览并读取 Result，再接入真实业务。</h2><p>首次真实发送仍需用户明确确认；任何 uncertain 结果都不得自动重试。</p></div><a class="button" href="assets/downloads/微信本地通知助手-v2.1.0-rc2-setup.exe" download>下载安装器并开始接入</a></div>
     </section>
   </main>
-  <footer><div class="shell">微信本地通知助手 · V2.1.0 RC1 · Payload V1 / Result V1 Developer Interface</div></footer>
+  <footer><div class="shell">微信本地通知助手 · V2.1.0 RC2 · Payload V1 / Result V1 Developer Interface</div></footer>
   <script>
     document.querySelectorAll("[data-copy-target]").forEach((button) => {
       button.addEventListener("click", async () => {
