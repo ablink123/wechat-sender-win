@@ -289,6 +289,16 @@
       to { transform: translateX(-50%); }
     }
 
+    .faq-list details { border-top: 1px solid var(--ink); padding: 22px 0; }
+    .faq-list summary { cursor: pointer; font-size: 1.15rem; font-weight: 800; line-height: 1.6; }
+    .faq-list summary:focus-visible { outline: 2px solid var(--red); outline-offset: 5px; }
+    .faq-list p, .faq-list li { line-height: 1.85; overflow-wrap: anywhere; }
+    .faq-list ul { padding-left: 24px; }
+    .faq-list figure { margin: 24px 0; }
+    .faq-list img { display: block; width: 100%; max-width: 874px; height: auto; }
+    .faq-list figcaption, .faq-sources { font-size: 0.9rem; line-height: 1.7; }
+    .faq-list a { text-decoration: underline; }
+
     section {
       padding: 84px 0;
     }
@@ -1107,6 +1117,7 @@
         <a href="#flow">流程</a>
         <a href="#download">下载</a>
         <a href="./developer-api.html">开发接口</a>
+        <a href="#faq">常见问题</a>
         <a href="#purchase">套餐</a>
         <a href="#support">支持</a>
       </nav>
@@ -1363,6 +1374,40 @@
           <div class="install-step"><b>04 / IMPORT</b><strong>二选一导入 Skill</strong></div>
           <div class="install-step"><b>05 / PREVIEW</b><strong>先预览名单和文件</strong></div>
           <div class="install-step"><b>06 / SEND</b><strong>确认后执行发送</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" aria-labelledby="faq-title">
+      <div class="section-inner">
+        <div class="section-head"><div class="section-kicker">FAQ / 常见问题</div><h2 id="faq-title">与 WorkBuddy 内置微信通道有什么区别？</h2></div>
+        <div class="faq-list">
+          <details open id="faq-workbuddy">
+            <summary>“微信助理”“微信客服号”和微信本地通知助手，是同一个功能吗？</summary>
+            <p><strong>不是同一个功能：前两者是“通过微信指挥 WorkBuddy”的远程入口；本产品是供 Agent 调用、操作电脑端个人微信发送内容的本地工具。</strong></p>
+            <ul>
+              <li><strong>WorkBuddy 微信助理：</strong>扫码绑定后，你在对应微信会话里下达任务，电脑上的 WorkBuddy 执行，再把进度或结果回传该会话。</li>
+              <li><strong>WorkBuddy 微信客服号：</strong>官方说明其功能与微信助理相同，是另一种扫码绑定通道；这里的名称不等于“接管你的个人微信好友和群聊”。</li>
+              <li><strong>微信本地通知助手：</strong>由 WorkBuddy 等 Agent 或程序调用本机客户端，在用户明确确认后，通过已登录的电脑端个人微信，向指定且可定位的联系人或群聊发送消息、附件。</li>
+            </ul>
+            <p>所以，“给我回传任务结果”和“用我的个人微信把报告发给指定好友或群”是两件事。这两个远程通道本身，不等同于个人微信联系人发送接口；但不能据此断言 WorkBuddy 无法借助 Skill、插件或电脑操作工具完成发送。</p>
+            <figure>
+              <img src="assets/codex-clipboard-447d5a27-7e31-4a32-8a1b-7fe9443df8ee.png" width="874" height="263" loading="lazy" alt="用户提供的 WorkBuddy 助理设置截图：远程通道下包含微信助理和微信客服号两个入口">
+              <figcaption>用户提供的界面示意：这两个入口位于“远程通道”。界面和功能可能随 WorkBuddy 版本变化；本产品不是腾讯官方组件，也不是对这两个入口的替代实现。</figcaption>
+            </figure>
+            <p class="faq-sources">依据：WorkBuddy 官方<a href="https://www.workbuddy.cn/docs/workbuddy/WeixinBot-Guide" target="_blank" rel="noopener noreferrer">微信助理接入指南</a>、<a href="https://www.workbuddy.cn/docs/workbuddy/Wechat-Guide" target="_blank" rel="noopener noreferrer">微信客服号接入指南</a>。核对日期：2026-09-20。</p>
+          </details>
+          <details>
+            <summary>两者可以配合使用吗？还需要安装发送工具吗？</summary>
+            <p>可以组合，但不是绑定微信后就自动具备发送能力。例如：你通过微信远程要求 WorkBuddy 整理报告；电脑端完成报告后，再调用已配置的本地通知助手，在确认收件人、正文和附件后发送。</p>
+            <p>组合使用需要实际配置和验证，不代表这条完整链路已在所有版本上验收。如果只是从手机发任务并收取结果，内置远程通道通常已满足该用途，无需为此另装本产品。若要向指定个人微信联系人或群发送，需要电脑端另具备相应发送能力；本产品是其中一种实现。</p>
+          </details>
+          <details>
+            <summary>能定时发送吗？电脑关机或微信未打开还能发吗？</summary>
+            <p>本产品提供发送执行能力，<strong>不自带独立的后台定时服务</strong>。定时流程需要由 Agent 的计划任务、Windows 任务计划或其他调度程序触发，并提前配置、确认与验证。</p>
+            <p>执行时电脑须开机并处于可操作的交互式桌面，个人微信须登录且窗口可操作；关机、休眠或锁屏时不保证执行。远程指挥还需要 WorkBuddy 正在运行、通道连接正常。</p>
+            <p>微信未启动或窗口不可操作时，RC2 会提示处理并停止，不自动启动微信、不代登录、不自动重试或补发。批量部分完成或发送结果不确定时，先核对已有结果，不能直接整批重发。</p>
+          </details>
         </div>
       </div>
     </section>
