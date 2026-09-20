@@ -229,7 +229,7 @@
       <nav class="nav" aria-label="开发接口导航">
         <a href="./index.html">首页</a><a href="#workflow">接入流程</a><a href="#quickstart">快速开始</a><a href="#modes">调用方式</a><a href="#examples">代码示例</a><a href="#errors">结果与错误</a>
       </nav>
-      <a class="button button-red" href="assets/downloads/微信本地通知助手-v2.2.0-rc1-setup.exe" download>下载客户端</a>
+      <a class="button button-red" href="assets/downloads/微信本地通知助手-v2.2.0-rc2-setup.exe" download>下载客户端</a>
     </div>
   </header>
   <main>
@@ -239,7 +239,7 @@
           <span class="eyebrow">LOCAL CLI DEVELOPER INTERFACE</span>
           <h1>让已有系统，<br><span>直接调用个人微信。</span></h1>
           <p class="lead">不依赖 WorkBuddy、Codex 或其他桌面 Agent。ERP、CRM、监控告警、报表程序和内部工具，只需生成 UTF-8 Payload JSON，再调用用户电脑上已安装的微信本地通知助手。</p>
-          <div class="hero-actions"><a class="button button-red" href="#quickstart">查看最小调用示例 ↓</a><a class="button" href="assets/downloads/微信本地通知助手-v2.2.0-rc1-setup.exe" download>下载 V2.2.0 RC1 候选版</a></div>
+          <div class="hero-actions"><a class="button button-red" href="#quickstart">查看最小调用示例 ↓</a><a class="button" href="assets/downloads/微信本地通知助手-v2.2.0-rc2-setup.exe" download>下载 V2.2.0 RC2 候选版</a></div>
         </div>
         <aside class="fact-panel" aria-label="接口摘要">
           <div><small>INTERFACE</small><strong>本地命令行进程调用</strong></div>
@@ -470,11 +470,11 @@ console.log(result.deliveries);</code></pre>
     </section>
     <section id="errors">
       <div class="shell">
-        <div class="section-head"><div class="section-kicker">08 / RESULT V1</div><div><h2>读取版本化 Result，不要匹配整段中文输出。</h2><p>V2.2.0 RC1 通过 --output-json 原子写入顶层结果和逐联系人状态；人类可读标准输出只用于诊断。</p><p>独立更新命令：<code>wechat-sender.exe --check-update --output-json update-result.json</code>。输出为独立更新结果，不是发送 Result V1；不得与发送、授权或窗口操作参数混用。检查失败返回退出码 1，不执行发送或安装；普通发送 CLI 不触发更新检查。</p></div></div>
+        <div class="section-head"><div class="section-kicker">08 / RESULT V1</div><div><h2>读取版本化 Result，不要匹配整段中文输出。</h2><p>V2.2.0 RC2 通过 --output-json 原子写入顶层结果和逐联系人状态；人类可读标准输出只用于诊断。</p><p>独立更新命令：<code>wechat-sender.exe --check-update --output-json update-result.json</code>。输出为独立更新结果，不是发送 Result V1；不得与发送、授权或窗口操作参数混用。检查失败返回退出码 1，不执行发送或安装；普通发送 CLI 不触发更新检查。</p></div></div>
         <div class="protocol-grid">
           <div class="payload-sample"><pre><code>{
   "schema_version": "1.0",
-  "app_version": "2.2.0-rc1",
+  "app_version": "2.2.0-rc2",
   "operation_id": "order-A1024-preview",
   "mode": "preview",
   "status": "succeeded",
@@ -522,6 +522,7 @@ console.log(result.deliveries);</code></pre>
         </div>
       </div>
     </section>
+    <section aria-label="微信就绪错误"><div class="shell"><p>RC2 在授权额度预留前检查微信：<code>WECHAT_NOT_RUNNING</code> 提醒打开并登录；<code>WECHAT_WINDOW_NOT_FOUND</code> 提醒从任务栏或托盘打开主界面；<code>WECHAT_DETECTION_FAILED</code> 提醒检查运行权限；<code>WECHAT_FOCUS_FAILED</code> 提醒手动打开微信窗口。上述错误 <code>retryable=false</code>，转告恢复提示后停止，不自动重试或补发。批量部分完成时保留逐联系人结果，不得整批重发。</p></div></section>
     <section id="limits">
       <div class="shell">
         <div class="section-head"><div class="section-kicker">09 / RUNTIME LIMITS</div><div><h2>它是桌面接口，不是服务器 API。</h2><p>微信自动化依赖当前用户桌面、前台窗口和已经登录的个人微信客户端。</p></div></div>
@@ -534,10 +535,10 @@ console.log(result.deliveries);</code></pre>
       </div>
     </section>
     <section class="cta-band">
-      <div class="shell cta-grid"><div><h2>先校验、预览并读取 Result，再接入真实业务。</h2><p>首次真实发送仍需用户明确确认；任何 uncertain 结果都不得自动重试。RC1 安装器未签名，请在<a href="index.html#download">下载说明</a>核对大小、SHA256、升级和隐私边界。</p></div><a class="button" href="assets/downloads/微信本地通知助手-v2.2.0-rc1-setup.exe" download>下载安装器并开始接入</a></div>
+      <div class="shell cta-grid"><div><h2>先校验、预览并读取 Result，再接入真实业务。</h2><p>首次真实发送仍需用户明确确认；任何 uncertain 结果都不得自动重试。RC2 安装器未签名，请在<a href="index.html#download">下载说明</a>核对大小、SHA256、升级和隐私边界。</p></div><a class="button" href="assets/downloads/微信本地通知助手-v2.2.0-rc2-setup.exe" download>下载安装器并开始接入</a></div>
     </section>
   </main>
-  <footer><div class="shell">微信本地通知助手 · V2.2.0 RC1 候选版 · Payload V1 / Result V1 Developer Interface</div></footer>
+  <footer><div class="shell">微信本地通知助手 · V2.2.0 RC2 候选版 · Payload V1 / Result V1 Developer Interface</div></footer>
   <script>
     document.querySelectorAll("[data-copy-target]").forEach((button) => {
       button.addEventListener("click", async () => {
